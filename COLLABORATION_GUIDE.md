@@ -11,11 +11,11 @@ cd facebook_clone
 ### 2. Installer les extensions Cursor/VS Code
 ```bash
 # Extensions essentielles
-cursor --install-extension dbaeumer.vscode-eslint
+ --install-extension dbaeumer.vscode-eslint
 cursor --install-extension esbenp.prettier-vscode
 cursor --install-extension bmewburn.vscode-intelephense-client
 cursor --install-extension laravel.vscode-laravel
-cursor --install-extension onecentlin.laravel-blade
+cursor --install-extension onecentlin.larcursoravel-blade
 ```
 
 ### 3. Configurer Git (si pas déjà fait)
