@@ -33,6 +33,8 @@ CREATE TABLE users (
     last_login TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    confirmation_token VARCHAR(64) DEFAULT NULL,
+    is_confirmed TINYINT(1) DEFAULT 0,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
     INDEX idx_email (email),
     INDEX idx_username (username),
@@ -268,3 +270,10 @@ CREATE INDEX idx_posts_privacy_created ON posts(privacy, created_at);
 CREATE INDEX idx_comments_post_parent ON comments(post_id, parent_id);
 CREATE INDEX idx_messages_conversation_sender ON messages(conversation_id, sender_id);
 CREATE INDEX idx_notifications_user_type ON notifications(user_id, type);
+
+-- Modification de la table users
+ALTER TABLE users
+  ADD COLUMN confirmation_token VARCHAR(64) DEFAULT NULL,
+  ADD COLUMN is_confirmed TINYINT(1) DEFAULT 0,
+  ADD COLUMN gender VARCHAR(10) DEFAULT NULL,
+  ADD COLUMN birthdate DATE DEFAULT NULL;
