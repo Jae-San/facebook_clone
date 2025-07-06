@@ -33,8 +33,6 @@ CREATE TABLE users (
     last_login TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    confirmation_token VARCHAR(64) DEFAULT NULL,
-    is_confirmed TINYINT(1) DEFAULT 0,
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
     INDEX idx_email (email),
     INDEX idx_username (username),
