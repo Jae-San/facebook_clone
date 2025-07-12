@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fil d'actualité - Mon Clone Rose</title>
+    <!-- On lie le fichier CSS pour la page d'accueil -->
+    <link rel="stylesheet" href="../../assets/css/home.css">
+</head>
+<body>
+
+    <!-- =================================================================
+    HEADER / BARRE DE NAVIGATION SUPÉRIEURE
+    ================================================================== -->
+    <header class="page-header">
+        <div class="header-left">
+            <h1 class="logo">f</h1> <!-- Logo simple -->
+            <input type="search" placeholder="Rechercher...">
+        </div>
+        <nav class="header-center">
+            <a href="#" class="nav-link active">[Accueil]</a>
+            <a href="#" class="nav-link">[Amis]</a>
+            <a href="#" class="nav-link">[Vidéos]</a>
+        </nav>
+        <div class="header-right">
+            <a href="#" class="profile-link">[Mon Profil]</a>
+            <a href="#" class="icon-button">[Msg]</a>
+            <a href="#" class="icon-button">[Notif]</a>
+        </div>
+    </header>
+
+    <!-- =================================================================
+    CONTENU PRINCIPAL DE LA PAGE
+    ================================================================== -->
+    <main class="main-content">
+
+        <!-- COLONNE DE GAUCHE : Raccourcis -->
+        <aside class="left-sidebar">
+            <a href="#" class="sidebar-item">
+                <img src="https://via.placeholder.com/36" alt="Votre photo de profil">
+                <span>Votre Nom</span>
+            </a>
+            <a href="#" class="sidebar-item"><span>[Icône]</span><span>Amis</span></a>
+            <a href="#" class="sidebar-item"><span>[Icône]</span><span>Souvenirs</span></a>
+            <a href="#" class="sidebar-item"><span>[Icône]</span><span>Groupes</span></a>
+        </aside>
+
+        <!-- COLONNE CENTRALE : FLUX D'ARTICLES -->
+        <section class="feed-container">
+            <!-- Boîte de création de publication -->
+            <div class="card create-post">
+                <div class="create-post-top">
+                    <img src="https://via.placeholder.com/40" alt="Votre photo de profil">
+                    <input type="text" placeholder="Quoi de neuf, Votre Nom ?">
+                </div>
+                <hr>
+                <div class="create-post-bottom">
+                    <button><span>[Vidéo]</span> Vidéo en direct</button>
+                    <button><span>[Photo]</span> Photo/Vidéo</button>
+                    <button><span>[Humeur]</span> Humeur</button>
+                </div>
+            </div>
+
+            <!-- Exemple de publication -->
+            <article class="card post">
+                <header class="post-header">
+                    <img src="https://via.placeholder.com/40" alt="Photo de Jane Doe">
+                    <div class="author-info">
+                        <strong>Jane Doe</strong>
+                        <small>Il y a 2 heures</small>
+                    </div>
+                </header>
+                <div class="post-content">
+                    <p>Super journée au parc aujourd'hui ! J'adore mon nouveau thème rose. 🌸 #clone #frontend #rose</p>
+                    <img src="https://via.placeholder.com/600x400.png/ffafcc/333" alt="Image de la publication">
+                </div>
+                <footer class="post-footer">
+                    <div class="post-stats">
+                        <span>15 J'aime</span>
+                        <span>3 Commentaires</span>
+                    </div>
+                    <hr>
+                    <div class="post-actions">
+                        <button>J'aime</button>
+                        <button>Commenter</button>
+                        <button>Partager</button>
+                    </div>
+                </footer>
+            </article>
+            
+            <!-- Une autre publication... -->
+        </section>
+
+        <!-- COLONNE DE DROITE : Contacts -->
+        <aside class="right-sidebar">
+            <h4>Contacts</h4>
+            <a href="#" class="sidebar-item contact-item">
+                <img src="https://via.placeholder.com/36" alt="Photo de Jane Doe">
+                <span>Jane Doe</span>
+            </a>
+            <a href="#" class="sidebar-item contact-item">
+                <img src="https://via.placeholder.com/36" alt="Photo de John Smith">
+                <span>John Smith</span>
+            </a>
+        </aside>
+
+    </main>
+
+</body>
+</html>

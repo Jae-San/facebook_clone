@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Articles - Administration</title>
+<link rel="stylesheet" href="../../assets/css/admin_base.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Barre latérale (identique à dashboard.html) -->
+        <aside class="admin-sidebar">
+            <h3>Admin CloneBook</h3>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Tableau de bord</a></li>
+                    <li><a href="manage_users.html">Gérer les utilisateurs</a></li>
+                    <li><a href="manage_articles.html"><strong>Gérer les articles</strong></a></li>
+                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="admin_login.html">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="admin-content">
+            <header>
+                <h1>Gérer les Articles</h1>
+                <input type="search" placeholder="Rechercher par contenu ou ID d'auteur...">
+            </header>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Article</th>
+                        <th>Auteur</th>
+                        <th>Extrait du contenu</th>
+                        <th>Date</th>
+                        <th>Signalements</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>589</td>
+                        <td>Alex Ray</td>
+                        <td>"Découvrez cette offre incroyable ! Cliquez ici http://spam.link..."</td>
+                        <td>2023-10-27</td>
+                        <td>3</td>
+                        <td>
+                            <button>Voir</button>
+                            <button>Masquer</button>
+                            <button>Supprimer</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>588</td>
+                        <td>Jane Doe</td>
+                        <td>"Super journée au parc aujourd'hui ! ☀️"</td>
+                        <td>2023-10-26</td>
+                        <td>0</td>
+                        <td>
+                            <button>Voir</button>
+                        </td>
+                    </tr>
+                    <!-- ... autres lignes pour d'autres articles -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

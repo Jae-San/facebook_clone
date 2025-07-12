@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Utilisateurs - Administration</title>
+<link rel="stylesheet" href="../../assets/css/admin_base.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Barre latérale (identique à dashboard.html) -->
+        <aside class="admin-sidebar">
+            <h3>Admin CloneBook</h3>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Tableau de bord</a></li>
+                    <li><a href="manage_users.html"><strong>Gérer les utilisateurs</strong></a></li>
+                    <li><a href="manage_articles.html">Gérer les articles</a></li>
+                    <li><a href="#">Paramètres</a></li>
+                    <li><a href="admin_login.html">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="admin-content">
+            <header>
+                <h1>Gérer les Utilisateurs</h1>
+                <input type="search" placeholder="Rechercher un utilisateur par nom ou email...">
+            </header>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Complet</th>
+                        <th>Email</th>
+                        <th>Date d'inscription</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Jane Doe</td>
+                        <td>jane.doe@email.com</td>
+                        <td>2023-10-26</td>
+                        <td>Actif</td>
+                        <td>
+                            <button>Suspendre</button>
+                            <button>Supprimer</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>John Smith</td>
+                        <td>john.smith@email.com</td>
+                        <td>2023-10-25</td>
+                        <td>Suspendu</td>
+                        <td>
+                            <button>Réactiver</button>
+                            <button>Supprimer</button>
+                        </td>
+                    </tr>
+                    <!-- ... autres lignes pour d'autres utilisateurs -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

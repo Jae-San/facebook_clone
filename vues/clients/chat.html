@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messagerie - Facebook Clone</title>
+    <link rel="stylesheet" href="../../assets/css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- On peut inclure le header principal de navigation ici si on le souhaite -->
+    <!-- <header> ... </header> -->
+
+    <main class="chat-container">
+
+        <!-- =================================================================
+        COLONNE DE GAUCHE : LISTE DES CONVERSATIONS
+        ================================================================== -->
+        <aside class="conversation-list-panel">
+            <header>
+                <h1>Messagerie</h1>
+                <input type="search" placeholder="Rechercher dans la messagerie">
+            </header>
+
+            <div class="conversation-list">
+                <ul>
+                    <!-- Conversation 1 (active) -->
+                    <li class="conversation-item active">
+                        <a href="#conversation1">
+                            <img src="https://via.placeholder.com/50" alt="Photo de profil de Jane Doe">
+                            <div class="conversation-details">
+                                <strong>Jane Doe</strong>
+                                <p>Génial ! Montre-moi quand tu auras fini !</p>
+                            </div>
+                            <time>15:32</time>
+                        </a>
+                    </li>
+
+                    <!-- Conversation 2 (avec message non lu) -->
+                    <li class="conversation-item unread">
+                        <a href="#conversation2">
+                            <img src="https://via.placeholder.com/50" alt="Photo de profil de John Smith">
+                            <div class="conversation-details">
+                                <strong>John Smith</strong>
+                                <p>Tu es dispo pour un appel demain ?</p>
+                            </div>
+                            <time>11:45</time>
+                        </a>
+                    </li>
+
+                    <!-- Conversation 3 -->
+                    <li class="conversation-item">
+                        <a href="#conversation3">
+                            <img src="https://via.placeholder.com/50" alt="Photo de profil de Alex Ray">
+                            <div class="conversation-details">
+                                <strong>Alex Ray</strong>
+                                <p>Tu as bien envoyé le fichier ?</p>
+                            </div>
+                            <time>Hier</time>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- =================================================================
+        COLONNE CENTRALE : FENÊTRE DE LA CONVERSATION ACTIVE
+        ================================================================== -->
+        <section class="active-conversation-panel">
+            <!-- Entête de la conversation active -->
+            <header class="conversation-header">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="Photo de profil de Jane Doe">
+                    <div>
+                        <h2>Jane Doe</h2>
+                        <small>En ligne</small>
+                    </div>
+                </div>
+                <div class="conversation-actions">
+                    <button>Appel Vidéo</button>
+                    <button>Appel Audio</button>
+                    <button>Détails</button>
+                </div>
+            </header>
+
+            <!-- Historique des messages -->
+            <div class="message-history">
+                <!-- Message reçu -->
+                <div class="message-bubble received">
+                    <img src="https://via.placeholder.com/30" alt="Avatar de Jane Doe">
+                    <div class="message-content">
+                        <p>Salut ! Ça va ?</p>
+                        <time>15:30</time>
+                    </div>
+                </div>
+
+                <!-- Message envoyé -->
+                <div class="message-bubble sent">
+                    <div class="message-content">
+                        <p>Hey ! Super et toi ? Je suis en train de coder la partie chat de mon projet.</p>
+                        <time>15:31</time>
+                    </div>
+                </div>
+
+                <!-- Autre message reçu -->
+                <div class="message-bubble received">
+                    <img src="https://via.placeholder.com/30" alt="Avatar de Jane Doe">
+                    <div class="message-content">
+                        <p>Génial ! Montre-moi quand tu auras fini !</p>
+                        <time>15:32</time>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zone de saisie de message -->
+            <footer class="message-input-area">
+                <form action="#" method="post">
+                    <button title="Joindre un fichier">+</button>
+                    <input type="text" name="message" placeholder="Écrivez un message...">
+                    <button type="submit" title="Envoyer">Envoyer</button>
+                </form>
+            </footer>
+        </section>
+
+    </main>
+
+</body>
+</html>

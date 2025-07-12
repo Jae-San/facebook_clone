@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amis - Facebook Clone</title>
+
+    <!-- 
+      ===================================================================
+      ===> LE CHEMIN CORRECT EST ICI <===
+      Assurez-vous que le fichier CSS est bien dans le dossier assets/css/
+      ===================================================================
+    -->
+    <link rel="stylesheet" href="../../assets/css/friends_list.css">
+    
+    <!-- On importe une librairie d'icônes comme Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Barre de navigation (identique à la page d'accueil) -->
+    <header class="page-header">
+        <div class="header-left">
+            <a href="#" class="logo">f</a>
+            <input type="search" placeholder="Rechercher...">
+        </div>
+        <div class="header-center">
+            <a href="home.html" class="nav-link">Accueil</a>
+            <a href="friends.html" class="nav-link active">Amis</a>
+            <a href="#" class="nav-link">Vidéos</a>
+        </div>
+        <div class="header-right">
+            <a href="#" class="profile-link">Mon Profil</a>
+            <a href="#" class="icon-button">Msg</a>
+            <a href="#" class="icon-button">Notif</a>
+        </div>
+    </header>
+
+    <!-- Contenu principal de la page -->
+    <div class="friends-page-container">
+
+        <!-- Colonne de gauche pour la navigation des amis -->
+        <aside class="friends-nav-sidebar">
+            <div class="sidebar-header">
+                <h2>Amis</h2>
+                <a href="#" class="settings-icon"><i class="fa-solid fa-gear"></i></a>
+            </div>
+            <nav>
+                <ul>
+                    <!-- On ajoute la classe "active" à l'élément courant -->
+                    <li class="active"><a href="#"><i class="fa-solid fa-user-group"></i> Accueil</a></li>
+                    <li><a href="#"><i class="fa-solid fa-user-plus"></i> Demandes d'ajout</a></li>
+                    <li><a href="#"><i class="fa-solid fa-user-check"></i> Suggestions</a></li>
+                    <li><a href="#"><i class="fa-solid fa-users"></i> Tous les amis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-cake-candles"></i> Anniversaires</a></li>
+                    <li><a href="#"><i class="fa-solid fa-address-book"></i> Listes personnalisées</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenu principal : la grille d'amis -->
+        <main class="friends-grid-container">
+            <h3>Tous les amis</h3>
+            
+            <div class="friends-grid">
+                <!-- Carte Ami 1 -->
+                <div class="friend-card">
+                    <a href="user_profile.html">
+                        <img src="https://i.pravatar.cc/200?u=jane" alt="Photo de profil de Jane Doe">
+                    </a>
+                    <div class="friend-info">
+                        <h4><a href="user_profile.html">Jane Doe</a></h4>
+                        <p>15 amis en commun</p>
+                    </div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+                
+                <!-- Carte Ami 2 -->
+                <div class="friend-card">
+                    <a href="user_profile.html">
+                        <img src="https://i.pravatar.cc/200?u=john" alt="Photo de profil de John Smith">
+                    </a>
+                    <div class="friend-info">
+                        <h4><a href="user_profile.html">John Smith</a></h4>
+                        <p>8 amis en commun</p>
+                    </div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+
+                <!-- Carte Ami 3 -->
+                <div class="friend-card">
+                    <a href="user_profile.html">
+                        <img src="https://i.pravatar.cc/200?u=alex" alt="Photo de profil de Alex Ray">
+                    </a>
+                    <div class="friend-info">
+                        <h4><a href="user_profile.html">Alex Ray</a></h4>
+                    </div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+
+                <!-- Répéter d'autres cartes ici ... -->
+                <div class="friend-card">
+                    <a href="user_profile.html"><img src="https://i.pravatar.cc/200?u=sara" alt="Photo"></a>
+                    <div class="friend-info"><h4><a href="#">Sara Lee</a></h4><p>2 amis en commun</p></div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+                <div class="friend-card">
+                    <a href="user_profile.html"><img src="https://i.pravatar.cc/200?u=mike" alt="Photo"></a>
+                    <div class="friend-info"><h4><a href="#">Mike Chan</a></h4><p>21 amis en commun</p></div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+                 <div class="friend-card">
+                    <a href="user_profile.html"><img src="https://i.pravatar.cc/200?u=chris" alt="Photo"></a>
+                    <div class="friend-info"><h4><a href="#">Chris Roy</a></h4><p>5 amis en commun</p></div>
+                    <button class="options-btn"><i class="fa-solid fa-ellipsis"></i></button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
