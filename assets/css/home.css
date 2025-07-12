@@ -1,0 +1,149 @@
+/* assets/css/home.css */
+
+/* --- Palette de Couleurs ROSE --- */
+:root {
+    --primary-color: #f72585;
+    --primary-hover: #d90429;
+    --link-color: #f72585;
+    --background-color: #fdf0f5; /* Fond rose très clair */
+    --card-background: #fff;
+    --text-color: #1c1e21;
+    --text-secondary-color: #65676b;
+    --border-color: #ced0d4;
+    --header-height: 56px;
+}
+
+/* --- Styles de base --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background-color);
+    padding-top: var(--header-height); /* Espace pour le header fixe */
+}
+hr { border: none; border-bottom: 1px solid var(--border-color); margin: 12px 0; }
+a { text-decoration: none; color: inherit; }
+img { border-radius: 50%; } /* Toutes les images de profil seront rondes */
+
+/* --- Header / Barre de navigation --- */
+.page-header {
+    background-color: var(--card-background);
+    height: var(--header-height);
+    padding: 0 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-left, .header-center, .header-right { display: flex; align-items: center; gap: 12px; }
+.logo {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+.header-left input { border-radius: 20px; border: 1px solid #eee; padding: 8px 12px; background-color: #f0f2f5; }
+.nav-link { font-size: 18px; padding: 16px; position: relative; }
+.nav-link.active { color: var(--primary-color); }
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+.profile-link, .icon-button { font-weight: bold; }
+
+/* --- Layout Principal --- */
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.left-sidebar, .right-sidebar {
+    flex: 0 0 280px; /* Ne grandit pas, ne rétrécit pas, base de 280px */
+    position: sticky;
+    top: calc(var(--header-height) + 20px); /* Reste visible au scroll */
+    height: calc(100vh - var(--header-height) - 40px);
+}
+.feed-container {
+    flex: 1; /* Prend l'espace restant */
+    max-width: 680px;
+    margin: 0 20px;
+}
+
+/* --- Colonnes latérales (Sidebar) --- */
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.sidebar-item:hover { background-color: #e4e6eb; }
+.sidebar-item img { width: 36px; height: 36px; }
+
+/* --- Styles des cartes (Post, Create Post) --- */
+.card {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+/* --- Boîte de Création de Post --- */
+.create-post-top { display: flex; align-items: center; gap: 10px; }
+.create-post-top input {
+    flex-grow: 1;
+    border-radius: 20px;
+    border: none;
+    padding: 12px 16px;
+    background-color: #f0f2f5;
+    cursor: pointer;
+}
+.create-post-top input:hover { background-color: #e4e6eb; }
+.create-post-bottom { display: flex; justify-content: space-around; }
+.create-post-bottom button {
+    background: none; border: none; cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    color: var(--text-secondary-color);
+    flex-grow: 1;
+    justify-content: center;
+}
+.create-post-bottom button:hover { background-color: #f0f2f5; }
+
+/* --- Style d'une publication --- */
+.post-header { display: flex; align-items: center; gap: 10px; }
+.author-info strong { font-size: 15px; }
+.author-info small { font-size: 13px; color: var(--text-secondary-color); }
+.post-content { margin: 16px 0; }
+.post-content p { font-size: 15px; margin-bottom: 12px; }
+.post-content img { border-radius: 8px; width: 100%; } /* Image de post rectangulaire */
+
+.post-footer .post-stats { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-secondary-color); }
+.post-footer .post-actions { display: flex; justify-content: space-around; }
+.post-actions button { /* Même style que les boutons de create-post */
+    background: none; border: none; cursor: pointer;
+    padding: 10px; border-radius: 8px; display: flex;
+    align-items: center; gap: 8px; font-weight: bold;
+    color: var(--text-secondary-color); flex-grow: 1; justify-content: center;
+}
+.post-actions button:hover { background-color: #f0f2f5; }

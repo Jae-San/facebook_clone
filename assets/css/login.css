@@ -1,34 +1,22 @@
-/* assets/css/auth.css - VERSION ROSE */
+/* assets/css/login.css */
 
-/* --- Nouvelle Palette de Couleurs ROSE --- */
+/* --- Palette de Couleurs ROSE --- */
 :root {
-    /* Un rose vif et joyeux pour les actions principales */
-    --primary-color: #f72585; /* Rose "Barbie" */
-    --primary-hover: #d90429; /* Un rose-rouge plus foncé pour le survol */
-
-    /* Un rose complémentaire pour les actions secondaires */
-    --secondary-color: #ffafcc; /* Rose pastel */
-    --secondary-hover: #ff99c2; /* Un peu plus saturé */
-
-    /* Couleur pour les liens et le focus */
-    --link-color: #f72585; /* Le même que le rose principal pour la cohérence */
-    --focus-glow: #ffc2d1; /* Une lueur rose très pâle */
-    
-    /* Couleurs de base de l'interface */
-    --background-color: #fdf0f5; /* Un fond très légèrement rosé */
+    --primary-color: #f72585;
+    --primary-hover: #d90429;
+    --secondary-color: #ffafcc;
+    --secondary-hover: #ff99c2;
+    --link-color: #f72585;
+    --focus-glow: #ffc2d1;
+    --background-color: #fdf0f5;
     --card-background: #fff;
     --text-color: #1c1e21;
-    --border-color: #e3d5ca; /* Une bordure douce qui s'accorde avec le rose */
+    --border-color: #e3d5ca;
     --divider-color: #e3d5ca;
 }
 
 /* --- Styles de base --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: var(--background-color);
@@ -38,7 +26,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- Conteneur principal --- */
+/* --- Conteneur et carte --- */
 .auth-container {
     display: flex;
     flex-direction: column;
@@ -46,18 +34,6 @@ body {
     width: 100%;
     padding: 20px;
 }
-
-/* --- Logo "Facebook" --- */
-.brand-logo {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 60px;
-    font-weight: bold;
-    color: var(--primary-color); /* Notre rose principal ! */
-    margin-bottom: 15px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Petit effet d'ombre */
-}
-
-/* --- La carte blanche centrale --- */
 .auth-card {
     background-color: var(--card-background);
     border-radius: 8px;
@@ -67,13 +43,19 @@ body {
     max-width: 396px;
     text-align: center;
 }
-
 .auth-card h2 {
     font-size: 20px;
-    line-height: 28px;
     font-weight: normal;
     color: var(--text-color);
     margin-bottom: 20px;
+}
+.brand-logo {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 }
 
 /* --- Formulaire --- */
@@ -82,7 +64,6 @@ body {
     flex-direction: column;
     gap: 12px;
 }
-
 .auth-form input {
     width: 100%;
     padding: 14px 16px;
@@ -90,7 +71,6 @@ body {
     border-radius: 6px;
     font-size: 17px;
 }
-
 .auth-form input:focus {
     outline: none;
     border-color: var(--link-color);
@@ -105,9 +85,8 @@ body {
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.2s ease-in-out; /* Belle transition douce */
+    transition: background-color 0.2s ease-in-out;
 }
-
 .btn-primary {
     background-color: var(--primary-color);
     color: #fff;
@@ -116,22 +95,15 @@ body {
     width: 100%;
     margin: 8px 0;
 }
-
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-}
-
+.btn-primary:hover { background-color: var(--primary-hover); }
 .btn-secondary {
     background-color: var(--secondary-color);
-    color: #333; /* Texte plus foncé sur fond pastel pour la lisibilité */
+    color: #333;
     font-size: 17px;
     padding: 14px 16px;
     width: auto;
 }
-
-.btn-secondary:hover {
-    background-color: var(--secondary-hover);
-}
+.btn-secondary:hover { background-color: var(--secondary-hover); }
 
 /* --- Liens et séparateur --- */
 .forgot-password-link {
@@ -141,11 +113,7 @@ body {
     margin-top: 16px;
     display: block;
 }
-
-.forgot-password-link:hover {
-    text-decoration: underline;
-}
-
+.forgot-password-link:hover { text-decoration: underline; }
 .divider {
     border-bottom: 1px solid var(--divider-color);
     margin: 20px 0;
