@@ -11,13 +11,18 @@ class User {
         $this->con = $con;
         $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$user'");
         $this->user = mysqli_fetch_array($user_details_query);
+        if (!$this->user) {
+            $this->user = null;
+        }
     }
 
     public function getUsername() {
+        if (!$this->user || !isset($this->user['username'])) return null;
         return $this->user['username']; //Used in Post.php class for example
     }
 
     public function getNumberOfFriendRequests() {
+        if (!$this->user || !isset($this->user['username'])) return 0;
         $username = $this->user['username'];
 
         $query = mysqli_query($this->con, "SELECT * FROM friend_requests WHERE user_to='$username'");
@@ -26,42 +31,50 @@ class User {
     }
 
     public function getNumPosts() {
+        if (!$this->user || !isset($this->user['username'])) return 0;
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT num_posts FROM users WHERE username='$username'"); 
         $row = mysqli_fetch_array($query);
-        return $row['num_posts'];
+        return $row ? $row['num_posts'] : 0;
     }
 
     public function getFirstName() {
+        if (!$this->user || !isset($this->user['first_name'])) return null;
         return $this->user['first_name'];
     }
 
     public function getFirstAndLastName() {
+        if (!$this->user || !isset($this->user['username'])) return null;
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT first_name, last_name FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
-        return $row['first_name'] . " " . $row['last_name'];
+        return $row ? $row['first_name'] . " " . $row['last_name'] : null;
     }
 
     public function getProfilePic() {
+        if (!$this->user || !isset($this->user['username'])) return null;
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT profile_pic FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
-        return $row['profile_pic'];
+        return $row ? $row['profile_pic'] : null;
     }
 
     public function isClosed() {
+        if (!$this->user || !isset($this->user['username'])) return false;
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT user_closed FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
 
-        if ($row['user_closed'] == "yes")
+        if ($row && $row['user_closed'] == "yes")
             return true;
         else
             return false;
     }
 
     public function isFriend($username_to_check) {
+        if (!$this->user || !isset($this->user['friend_array']) || !isset($this->user['username'])) {
+            return false;
+        }
         $usernameComma = "," . $username_to_check . ","; //friend_array in db is with commas
 
         if ((strstr($this->user['friend_array'], $usernameComma)) || $username_to_check == $this->user['username']) { //Show friends or yourself
@@ -72,6 +85,7 @@ class User {
     }
     
     public function didReceiveRequest($user_from) {
+        if (!$this->user || !isset($this->user['username'])) return false;
         $user_to = $this->user['username'];
 
         $check_request_query = mysqli_query($this->con, "SELECT * FROM friend_requests WHERE user_to='$user_to' AND user_from='$user_from'");
@@ -85,6 +99,7 @@ class User {
     }
 
     public function didSendRequest($user_to) {
+        if (!$this->user || !isset($this->user['username'])) return false;
         $user_from = $this->user['username'];
 
         $check_request_query = mysqli_query($this->con, "SELECT * FROM friend_requests WHERE user_to='$user_to' AND user_from='$user_from'");
@@ -98,11 +113,12 @@ class User {
     }
 
     public function removeFriend($user_to_remove) {
+        if (!$this->user || !isset($this->user['username'])) return;
         $logged_in_user = $this->user['username'];
 
         $query = mysqli_query($this->con, "SELECT friend_array FROM users WHERE username='$user_to_remove'");
         $row = mysqli_fetch_array($query);
-        $friend_array_username = $row['friend_array'];
+        $friend_array_username = $row ? $row['friend_array'] : '';
 
         // Update the logged in users friend array, remove friend!
         $new_friend_array = str_replace($user_to_remove . ",", "", $this->user['friend_array']); //Search , replace, subject
@@ -114,18 +130,21 @@ class User {
     }
 
     public function sendRequest($user_to) {
+        if (!$this->user || !isset($this->user['username'])) return;
         $user_from = $this->user['username'];
         $query = mysqli_query($this->con, "INSERT INTO friend_requests VALUES('', '$user_to', '$user_from')");
     }
 
     public function getFriendArray() {
+        if (!$this->user || !isset($this->user['username'])) return '';
         $username = $this->user['username'];
         $query = mysqli_query($this->con, "SELECT friend_array FROM users WHERE username='$username'");
         $row = mysqli_fetch_array($query);
-        return $row['friend_array'];
+        return $row ? $row['friend_array'] : '';
     }
 
     public function getMutualFriends($user_to_check) {
+        if (!$this->user || !isset($this->user['friend_array'])) return 0;
         $mutualFriends = 0; //Initialize
 
         //Get the logged in user friends
@@ -135,7 +154,7 @@ class User {
         //Get the profile's mutual friends that user is on
         $query = mysqli_query($this->con, "SELECT friend_array FROM users WHERE username='$user_to_check'");
         $row = mysqli_fetch_array($query);
-        $user_to_check_array = $row['friend_array'];
+        $user_to_check_array = $row ? $row['friend_array'] : '';
         $user_to_check_array_explode = explode(",", $user_to_check_array); //Splits a string and looks for commas
 
         //Count the matching friends

@@ -1,8 +1,11 @@
 <?php 
 ob_start(); //Turns on output buffering
-session_start(); //Starts the session
 
-$timezone = date_default_timezone_set("Europe/Helsinki");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$timezone = date_default_timezone_set("Europe/Paris");
 
 //IF DEVELOPMENT ENVIRONMENT - use local DB
 if (strstr($_SERVER['SERVER_NAME'], 'localhost')) {

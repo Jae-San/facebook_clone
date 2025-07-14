@@ -33,14 +33,14 @@ class Message
             return $user_from;
     }
 
-    public function sendMessage($user_to, $body, $date) {
-
-        //Don't send empty message
-        if ($body != "") {
+    public function sendMessage($user_to, $body, $date, $imagePath = "") {
+        //Don't send empty message and image
+        if ($body != "" || $imagePath != "") {
             $userLoggedIn = $this->user_obj->getUsername();
-            $query = mysqli_query($this->con, "INSERT INTO messages VALUES('', '$user_to', '$userLoggedIn', '$body', '$date', 'no', 'no', 'no')");
+            $body = mysqli_real_escape_string($this->con, $body);
+            $imagePath = mysqli_real_escape_string($this->con, $imagePath);
+            $query = mysqli_query($this->con, "INSERT INTO messages VALUES('', '$user_to', '$userLoggedIn', '$body', '$date', 'no', 'no', 'no', '$imagePath')");
         }
-
     }
 
     public function getMessages($otherUser) {
@@ -56,13 +56,24 @@ class Message
             $user_from = $row['user_from'];
             $body = $row['body'];
             $date = $row['date'];
+            $image = isset($row['image']) ? $row['image'] : "";
             $friend = new User($this->con, $otherUser);
             $friend_name = $friend->getFirstName();
 
             $info = ($user_to === $userLoggedIn) ? $friend_name . " on " . date("M d Y H:i", strtotime($date)) : "You" .  " on " . date("M d Y H:i", strtotime($date));
 
             $div_top = ($user_to == $userLoggedIn) ? "<div class='message_g' id='green'>" : "<div class='message_b' id='blue'>";
-            $data = $data . $div_top . "<span>" . $info . "</span>" . $body . "</div><br><br>";
+            $data .= $div_top . "<div class='chat_message_body'>";
+
+            if (trim($body) != "") {
+                $data .= "<div class='chat_text'>" . nl2br(htmlspecialchars($body)) . "</div>";
+            }
+
+            if ($image != "") {
+                $data .= "<div class='postedImage'><img src='" . $image . "'></div>";
+            }
+
+            $data .= "</div></div><br><br>";
         }
 
         return $data;
@@ -159,10 +170,13 @@ class Message
             $latest_message_details = $this->getLatestMessage($userLoggedIn, $username);
 
             // Splice message to 12 characters and append "..."
-            // [1] =  array_push($details_array, $body); - Body
-            $dots = (strlen($latest_message_details[1]) >= 12) ? "..." : "";
-            $split = str_split($latest_message_details[1], 12);
-            $split = $split[0] . $dots;
+            if (isset($latest_message_details[1]) && $latest_message_details[1] !== "") {
+                $dots = (strlen($latest_message_details[1]) >= 12) ? "..." : "";
+                $split = str_split($latest_message_details[1], 12);
+                $split = $split[0] . $dots;
+            } else {
+                $split = "";
+            }
 
             $return_string .= "<a href='messages.php?u=$username'><div class='user_found_messages'>
                                 <img src='" . $user_found_obj->getProfilePic() . "' style='border-radius: 5px; margin-right:5px;'>
@@ -263,3 +277,4 @@ class Message
     }
     
 }
+

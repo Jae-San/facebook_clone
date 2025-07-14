@@ -640,9 +640,34 @@ div.dropdown_data_window {
     color: #fff;
 }
 
+.postedImage {
+    margin: 10px 0 0 0;
+    text-align: left;
+}
 .postedImage img {
+    max-width: 300px;
     max-height: 300px;
-    max-width: 100%;
+    border-radius: 8px;
     display: block;
-    margin: 5px auto;
+}
+.chat_message_body {
+    padding: 5px 0;
+}
+.chat_text {
+    margin-bottom: 5px;
+    word-break: break-word;
+}
+.chat_image_container {
+    margin: 5px 0;
+    text-align: left;
+}
+.chat_image {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    display: block;
+}
+.chat_text {
+    margin-top: 5px;
+    word-break: break-word;
 }

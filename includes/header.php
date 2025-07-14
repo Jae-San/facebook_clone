@@ -1,4 +1,12 @@
-<?php require 'config/config.php'; //getting $con var
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['username'])) {
+    header('Location: vues/clients/register.php');
+    exit();
+}
+require 'config/config.php'; //getting $con var
 include("includes/classes/User.php"); //Call in the USER CLASS
 include("includes/classes/Post.php"); //Call in the Post CLASS
 include("includes/classes/Message.php"); //Call in the Message CLASS
@@ -14,9 +22,9 @@ if (isset($_SESSION['username'])) {
     $user = mysqli_fetch_array($user_details_query); //return array from db (info about the logged in user)
 
 } else {
-    header("Location: register.php"); //If not logged in, redirect to register
+    header("Location: vues/clients/register.php"); //If not logged in, redirect to register
+    exit();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +35,7 @@ if (isset($_SESSION['username'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-512.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Facebook</title>
 
     <!-- Javascript -->
@@ -45,7 +54,6 @@ if (isset($_SESSION['username'])) {
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <!-- My CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/jquery.Jcrop.css" type="text/css" />

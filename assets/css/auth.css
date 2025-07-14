@@ -1,0 +1,276 @@
+/* assets/css/auth.css - VERSION ROSE */
+
+/* --- Nouvelle Palette de Couleurs ROSE --- */
+:root {
+    /* Un rose vif et joyeux pour les actions principales */
+    --primary-color: #f72585; /* Rose "Barbie" */
+    --primary-hover: #d90429; /* Un rose-rouge plus foncé pour le survol */
+
+    /* Un rose complémentaire pour les actions secondaires */
+    --secondary-color: #ffafcc; /* Rose pastel */
+    --secondary-hover: #ff99c2; /* Un peu plus saturé */
+
+    /* Couleur pour les liens et le focus */
+    --link-color: #f72585; /* Le même que le rose principal pour la cohérence */
+    --focus-glow: #ffc2d1; /* Une lueur rose très pâle */
+    
+    /* Couleurs de base de l'interface */
+    --background-color: #fdf0f5; /* Un fond très légèrement rosé */
+    --card-background: #fff;
+    --text-color: #1c1e21;
+    --border-color: #e3d5ca; /* Une bordure douce qui s'accorde avec le rose */
+    --divider-color: #e3d5ca;
+}
+
+/* --- Styles de base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* --- Conteneur principal --- */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+/* --- Logo "Facebook" --- */
+.brand-logo {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    color: var(--primary-color); /* Notre rose principal ! */
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Petit effet d'ombre */
+}
+
+/* --- La carte blanche centrale --- */
+.auth-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h1 {
+    color: #1877f2;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: #666;
+    font-size: 16px;
+}
+
+.auth-card h2 {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: normal;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+/* --- Formulaire --- */
+.auth-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1877f2;
+}
+
+.form-group input.error {
+    border-color: #dc3545;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+.checkbox-label a {
+    color: #1877f2;
+    text-decoration: none;
+}
+
+.checkbox-label a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out; /* Belle transition douce */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 20px;
+    padding: 12px;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: #333; /* Texte plus foncé sur fond pastel pour la lisibilité */
+    font-size: 17px;
+    padding: 14px 16px;
+    width: auto;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-hover);
+}
+
+.btn-block {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* --- Liens et séparateur --- */
+.forgot-password-link {
+    color: var(--link-color);
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 16px;
+    display: block;
+}
+
+.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    border-bottom: 1px solid var(--divider-color);
+    margin: 20px 0;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.auth-links a {
+    color: #1877f2;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-links .separator {
+    margin: 0 10px;
+    color: #ccc;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 30px 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .auth-header h1 {
+        font-size: 24px;
+    }
+}

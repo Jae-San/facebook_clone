@@ -222,6 +222,16 @@ class Post
                     $last_name = $user_row['last_name'];
                     $profile_pic = $user_row['profile_pic'];
 
+                    //Prepare image div
+                    if ($imagePath != "") {
+                        $imageDiv = "<div class='postedImage'>
+                                        <img src='" . $imagePath . "'>
+                                    </div>";
+                    }
+                    else {
+                        $imageDiv = "";
+                    }
+
                     ?>
                     <!-- COMMENTS BLOCK TOGGLE FUNCTION -->
                     <script>
@@ -298,16 +308,6 @@ class Post
                         }
                     }
 
-                    //Did user post images?
-                    if ($imagePath != "") {
-                        $imageDiv = "<div class='postedImage'>
-                                        <img src='" . $imagePath . "'>
-                                    </div>";
-                    }
-                    else {
-                        $imageDiv = "";
-                    }
-
                     //With each iteration, add a post to the html
                     $html .= "<div class='status_post' onClick='javascript:toggle$id(event)'>
                                 <div class='post_profile_pic'>
@@ -332,7 +332,7 @@ class Post
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
-                                <iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+                                <iframe src='/Facebook-clone/vues/clients/comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
                             </div>
                             <hr>";
                 }
@@ -347,7 +347,7 @@ class Post
                         $('#post<?php echo $id; ?>').on('click', function() {
                             // Comes with bootstrap JS
                             bootbox.confirm("Are you sure you want to delete this post?", function(result) {
-                                $.post("includes/form_handlers/delete_post.php?post_id=<?php echo $id; ?>", {
+                                $.post("../../api/delete_post.php?post_id=<?php echo $id; ?>", {
                                     result: result
                                 });
 
@@ -406,6 +406,7 @@ class Post
                 $body = $row['body'];
                 $added_by = $row['added_by'];
                 $date_time = $row['date_added'];
+                $imagePath = $row['image']; // <-- Add this line
 
                 if ($num_iterations++ < $start) {
                     continue;
@@ -430,6 +431,16 @@ class Post
                 $first_name = $user_row['first_name'];
                 $last_name = $user_row['last_name'];
                 $profile_pic = $user_row['profile_pic'];
+
+                //Prepare image div
+                if ($imagePath != "") {
+                    $imageDiv = "<div class='postedImage'>
+                                    <img src='" . $imagePath . "'>
+                                </div>";
+                }
+                else {
+                    $imageDiv = "";
+                }
 
             ?>
                 <!-- COMMENTS BLOCK TOGGLE FUNCTION -->
@@ -520,6 +531,7 @@ class Post
                                 <div id='post_body'>
                                     $body
                                     <br>
+                                    $imageDiv
                                     <br>
                                     <br>
                                 </div>
@@ -530,7 +542,7 @@ class Post
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
-                                <iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+                                <iframe src='/Facebook-clone/vues/clients/comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
                             </div>
                             <hr>";
 
@@ -545,7 +557,7 @@ class Post
                         $('#post<?php echo $id; ?>').on('click', function() {
                             // Comes with bootstrap JS
                             bootbox.confirm("Are you sure you want to delete this post?", function(result) {
-                                $.post("includes/form_handlers/delete_post.php?post_id=<?php echo $id; ?>", {
+                                $.post("../../api/delete_post.php?post_id=<?php echo $id; ?>", {
                                     result: result
                                 });
 
@@ -726,7 +738,7 @@ class Post
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
-                                <iframe src='comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
+                                <iframe src='/Facebook-clone/vues/clients/comment_frame.php?post_id=$id' id='comment_iframe' frameborder='0'></iframe>
                             </div>
                             <hr>";
                 

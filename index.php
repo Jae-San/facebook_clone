@@ -9,9 +9,14 @@ if (isset($_POST['post'])) {
     $error_message = "";
 
     if ($imageName != "") {
+        // Nettoie le nom du fichier pour enlever accents et caractères spéciaux
+        $imageName = iconv('UTF-8', 'ASCII//TRANSLIT', $imageName); // enlève accents
+        $imageName = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $imageName); // remplace caractères spéciaux par _
         $targetDir = "assets/images/posts/";
-        $imageName = $targetDir . uniqid() . basename($imageName); //So two people adding file with the same name does not get overwritten
-        $imageFileType = pathinfo($imageName, PATHINFO_EXTENSION); //png, jpg etc...
+        $uniqueName = uniqid() . $imageName;
+        $targetFilePath = $targetDir . $uniqueName;
+
+        $imageFileType = pathinfo($targetFilePath, PATHINFO_EXTENSION); //png, jpg etc...
         
         if ($_FILES['fileToUpload']['size'] > 1000000) {
             $errorMessage = "Sorry, your file is too large!";
@@ -24,11 +29,10 @@ if (isset($_POST['post'])) {
         }
 
         if ($uploadOk) {
-            if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $imageName)) {
-                //Image uploaded okay
-            }
-            else {
-                //Img did not upload
+            if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $targetFilePath)) {
+                // Enregistre dans la base uniquement le chemin relatif
+                $imageName = $targetDir . $uniqueName;
+            } else {
                 $uploadOk = false;
             }
         }
@@ -144,7 +148,7 @@ if (isset($_POST['post'])) {
             var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
 
             $.ajax({
-                url: "includes/handlers/ajax_load_posts.php",
+                url: "api/ajax_load_posts.php",
                 type: "POST",
                 data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                 cache: false,

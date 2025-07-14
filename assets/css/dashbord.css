@@ -1,0 +1,36 @@
+/* assets/css/dashboard.css */
+@import url('admin_base.css');
+
+/* Styles spécifiques au tableau de bord */
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.stat-card h4 {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+}
+.stat-card span {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--sidebar-bg);
+}
+.recent-activity {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+.recent-activity h2 { margin: 0 0 1rem 0; }
+.recent-activity ul { list-style: none; padding-left: 0; }
+.recent-activity li { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+.recent-activity li:last-child { border: none; }
