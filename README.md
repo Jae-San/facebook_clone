@@ -1,37 +1,62 @@
-# Facebook-clone
-Full-stack Social Media application (basically FB clone) with PHP, JS, MySQL
+# Facebook Clone
 
-Users can sign up, create posts and upload images, like posts, comment on posts, chat with other users, see notifications and user profiles and add users as friends, change user settings, search for users with AJAX and much more.
+## Description du projet
+Ce projet est un clone simplifié de Facebook, développé en PHP avec une base de données MySQL. Il permet aux utilisateurs de s'inscrire, de se connecter, de publier des messages (avec ou sans image), d'ajouter des amis, d'envoyer des messages privés, de liker des publications et de suivre les tendances. L'interface s'inspire du réseau social Facebook pour offrir une expérience utilisateur familière.
 
-* Basically possible to do everything, that users can do on a simple social media platform.
+## Mode de fonctionnement
+- **Inscription & Connexion** : Les utilisateurs peuvent créer un compte, confirmer leur email, puis se connecter.
+- **Mur d'actualité** : Les utilisateurs voient les publications de leurs amis et peuvent publier du texte ou des images.
+- **Amis** : Possibilité d'ajouter, supprimer des amis et de voir les amis en commun.
+- **Messagerie** : Envoi de messages privés entre amis.
+- **Likes & Commentaires** : Les utilisateurs peuvent liker et commenter les publications.
+- **Tendances** : Affichage des sujets tendances selon l'activité.
+- **Gestion de profil** : Modification des informations et de la photo de profil.
+- **Rôles** : Utilisateurs, administrateurs et modérateurs (gestion via la base de données).
 
-The most complete PHP application I have yet created from scratch.
+## Identifiants de test
 
-Try it out: https://fb-social-network.herokuapp.com/
+### Utilisateur client
+- **Email** : groupdeux@gmail.com
+- **Mot de passe** : b1e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2 (hashé, à réinitialiser ou à remplacer par un mot de passe connu si besoin)
+- **Nom d'utilisateur** : groupedeux
 
-## Project images
+### Administrateur
+- **Email** : groupedeuxesgis@gmail.com
+- **Mot de passe** : b8e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2 (hashé, à réinitialiser ou à remplacer par un mot de passe connu si besoin)
+- **Nom d'utilisateur** : groupedeuxesgis
 
-### Newsfeed
-![picture](assets/images/1.png)
-* Users can create posts, add images, add Youtube links that get converted to embed boxes
+### Autres comptes de test
+- **Lauriane Degan** : Laurianelaurie029@gmail.com / username : lauriane_degan
+- **Modérateur** : tpesgis@gmail.com / username : tpesgis
 
-![picture](assets/images/2.png)
-* Users can post on friends profiles
+> **Remarque :** Les mots de passe sont stockés hashés dans la base de données. Pour tester en local, vous pouvez soit réinitialiser le mot de passe via la fonctionnalité "mot de passe oublié", soit insérer un mot de passe connu en base.
 
-![picture](assets/images/3.png)
-* Users can search for registered users without reloading the page
+## Liste des membres du groupe
+  GROUPE 10:
+- AYISSO Lauriane
+- HOUNDENOU Conceptia
+- LOVI Jae-San
+- MASSENON Alex
 
-![picture](assets/images/4.png)
-* Users can have real-time conversations with other users, texts have a timestamp & "Seen" feature
+## Structure du projet
+```
+facebook_clone/
+├── api/           # Backend PHP
+├── assets/        # CSS, JS, Images
+├── vues/          # Pages frontend
+├── .eslintrc.json # Configuration ESLint
+└── .prettierrc    # Configuration Prettier
+```
 
-![picture](assets/images/5.png)
-* Users can see their received and sent friend requests
+## Installation rapide
+1. Cloner le dépôt :
+   ```bash
+   git clone https://github.com/Jae-San/facebook_clone.git
+   cd facebook_clone
+   ```
+2. Importer le fichier `social .sql` dans votre base de données MySQL.
+3. Configurer la connexion à la base dans `config/config.php` si besoin.
+4. Lancer le serveur local (ex : XAMPP, WAMP) et accéder à `index.php`.
 
-![picture](assets/images/6.png)
-* Users can search for users to send a text via AJAX
-
-![picture](assets/images/7.png)
-* Users can change their account settings
-
-![picture](assets/images/8.png)
-* Messages and notifications have a dropdown window handled with AJAX
+## Contact & Support
+Pour toute question, ouvrez une issue sur GitHub ou contactez un membre du groupe au +2290153531653.

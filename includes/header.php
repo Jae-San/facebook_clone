@@ -1,16 +1,8 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (!isset($_SESSION['username'])) {
-    header('Location: vues/clients/register.php');
-    exit();
-}
-require 'config/config.php'; //getting $con var
-include("includes/classes/User.php"); //Call in the USER CLASS
-include("includes/classes/Post.php"); //Call in the Post CLASS
-include("includes/classes/Message.php"); //Call in the Message CLASS
-include("includes/classes/Notification.php"); //Call in the Notification CLASS
+<?php require_once(__DIR__ . '/../config/config.php'); //getting $con var
+require_once(__DIR__ . '/classes/User.php');
+require_once(__DIR__ . '/classes/Post.php');
+require_once(__DIR__ . '/classes/Message.php');
+require_once(__DIR__ . '/classes/Notification.php');
 
 //If user is logged in 
 if (isset($_SESSION['username'])) {
@@ -22,9 +14,10 @@ if (isset($_SESSION['username'])) {
     $user = mysqli_fetch_array($user_details_query); //return array from db (info about the logged in user)
 
 } else {
-    header("Location: vues/clients/register.php"); //If not logged in, redirect to register
-    exit();
+    header("Location: /Facebook-clone/vues/clients/register.php");
+    exit(); //If not logged in, redirect to register
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +28,6 @@ if (isset($_SESSION['username'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-512.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Facebook</title>
 
     <!-- Javascript -->
@@ -44,37 +36,38 @@ if (isset($_SESSION['username'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Bootstrap js -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="assets/js/bootbox.min.js"></script>
-    <script src="assets/js/facebook.js"></script>
-    <script src="assets/js/jquery.Jcrop.js"></script>
-    <script src="assets/js/jcrop_bits.js"></script>
+    <script src="/Facebook-clone/assets/js/bootbox.min.js"></script>
+    <script src="/Facebook-clone/assets/js/facebook.js"></script>
+    <script src="/Facebook-clone/assets/js/jquery.Jcrop.js"></script>
+    <script src="/Facebook-clone/assets/js/jcrop_bits.js"></script>
 
     <!-- CSS -->
 
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <!-- My CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/jquery.Jcrop.css" type="text/css" />
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/style.css">
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/jquery.Jcrop.css" type="text/css" />
 </head>
 
 <body>
 
     <div class="top_bar">
         <div class="logo">
-            <a href="index.php">Facebook</a>
+            <a href="/Facebook-clone/index.php">Facebook</a>
         </div>
 
         <!-- SEARCH FORM -->
         <div class="search">
 
-            <form action="search.php" method="GET" name="search_form">
+            <form action="/Facebook-clone/vues/clients/search.php" method="GET" name="search_form">
                 <!-- AJAX request in facebook.js -->
                 <input type="text" onkeyup="getLiveSearchUsers(this.value, '<?php echo $userLoggedIn; ?>')" name="q" placeholder="Search..." autocomplete="off" id="search_text_input">
 
                 <div class="button_holder">
-                    <img src="assets/images/icons/magnifier.png" alt="">
+                    <img src="/Facebook-clone/assets/images/icons/magnifier.png" alt="">
                 </div>
             </form>
 
@@ -100,12 +93,10 @@ if (isset($_SESSION['username'])) {
             $num_requests = $user_obj->getNumberOfFriendRequests();
             ?>
 
-            <a href="<?php echo $userLoggedIn; ?>">
-                <?php
-                echo $user['username'];
-                ?>
+            <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
+                <?php echo $user['username']; ?>
             </a>
-            <a href="index.php">
+            <a href="/Facebook-clone/index.php">
                 <i class="fa fa-home fa-lg" aria-hidden="true"></i>
             </a>
             <!-- Open Messages Dropdown for the logged in user, type = message -->
@@ -125,17 +116,17 @@ if (isset($_SESSION['username'])) {
                     echo '<span class="notification_badge" id="unread_notification">' . $num_notifications . '</span>';
                 ?>
             </a>
-            <a href="requests.php">
+            <a href="/Facebook-clone/vues/clients/requests.php">
                 <i class="fa fa-users fa-lg" aria-hidden="true"></i>
                 <?php
                 if ($num_requests > 0)
                     echo '<span class="notification_badge" id="unread_requests">' . $num_requests . '</span>';
                 ?>
             </a>
-            <a href="settings.php">
+            <a href="/Facebook-clone/vues/clients/settings.php">
                 <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
             </a>
-            <a href="includes/handlers/logout.php">
+            <a href="#" id="logoutBtn">
                 <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
             </a>
         </nav>
@@ -214,8 +205,7 @@ if (isset($_SESSION['username'])) {
     </script> -->
 
     <script>
-        //Username of the logged in user
-        let userLoggedIn = '<?php echo $userLoggedIn; ?>';
+        var userLoggedIn = '<?php echo $userLoggedIn; ?>';
 
         $(document).ready(function() {
 
@@ -232,13 +222,13 @@ if (isset($_SESSION['username'])) {
                     var type = $('#dropdown_data_type').val();
 
                     if (type == 'notification')
-                        pageName = "ajax_load_notifications.php";
+                        pageName = "/Facebook-clone/api/ajax_load_notifications.php";
                     else if (type == 'message')
-                        pageName = "ajax_load_messages.php";
+                        pageName = "/Facebook-clone/api/ajax_load_messages.php";
 
 
                     let ajaxReq = $.ajax({
-                        url: "includes/handlers/" + pageName,
+                        url: pageName,
                         type: "POST",
                         data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                         cache: false,
@@ -256,6 +246,15 @@ if (isset($_SESSION['username'])) {
 
             }); //End  $(window).scroll(function())
         });
+    </script>
+
+    <script>
+    // Déconnexion simple côté client
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        sessionStorage.removeItem('username');
+        window.location.href = '/Facebook-clone/vues/clients/register.php';
+    });
     </script>
 
     <div class="wrapper">

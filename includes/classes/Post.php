@@ -27,7 +27,7 @@ class Post
         $check_empty = preg_replace('/\s+/', '', $body); //Deletes all spaces from body
 
         //Does not let the user enter just spaces into the db
-        if ($check_empty != "") {
+        if ($check_empty != "" || $imageName != "") {
 
             //Split the post at spaces into an array
             $body_array = preg_split("/\s+/", $body);
@@ -60,7 +60,7 @@ class Post
             }
 
             //Insert post to db
-            $query = mysqli_query($this->con, "INSERT INTO posts VALUES ('', '$body', '$added_by', '$user_to', '$date_added', 'no', 'no', '0', '$imageName')");
+            $query = mysqli_query($this->con, "INSERT INTO posts (body, added_by, user_to, date_added, deleted, likes, image) VALUES ('$body', '$added_by', '$user_to', '$date_added', 'no', '0', '$imageName')");
 
             $returned_id = mysqli_insert_id($this->con); //Returns the id of the post submitted
 
@@ -144,7 +144,7 @@ class Post
             $query = mysqli_query($this->con, "SELECT * FROM trends WHERE title='$term'");
 
             if (mysqli_num_rows($query) == 0) {
-                $insert_query = mysqli_query($this->con, "INSERT INTO trends(title, hits) VALUES ('$term', '1')");
+                $insert_query = mysqli_query($this->con, "INSERT INTO trends (title, hits) VALUES ('$term', '1')");
             }
             else {
                 $insert_query = mysqli_query($this->con, "UPDATE trends SET hits=hits+1 WHERE title='$term'");
@@ -311,11 +311,11 @@ class Post
                     //With each iteration, add a post to the html
                     $html .= "<div class='status_post' onClick='javascript:toggle$id(event)'>
                                 <div class='post_profile_pic'>
-                                    <img src='$profile_pic' width='50'>
+                                    <img src='/Facebook-clone/$profile_pic' width='50'>
                                 </div>
 
                                 <div class='posted_by' style='color: #ACACAC;'>
-                                    <a href='$added_by'>$first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;$time_message
+                                    <a href='/Facebook-clone/vues/clients/profile.php?u=$added_by'>$first_name $last_name</a> $user_to &nbsp;&nbsp;&nbsp;$time_message
                                     $delete_button
                                 </div>
                                 <div id='post_body'>
@@ -328,7 +328,7 @@ class Post
 
                                 <div class='newsfeedPostOptions'>
                                     Comments($comments_check_num)&nbsp;&nbsp;&nbsp;
-                                    <iframe src='like.php?post_id=$id' scrolling='no'></iframe>
+                                    <iframe src='/Facebook-clone/vues/clients/like.php?post_id=$id' scrolling='no'></iframe>
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
@@ -347,7 +347,7 @@ class Post
                         $('#post<?php echo $id; ?>').on('click', function() {
                             // Comes with bootstrap JS
                             bootbox.confirm("Are you sure you want to delete this post?", function(result) {
-                                $.post("../../api/delete_post.php?post_id=<?php echo $id; ?>", {
+                                $.post("/Facebook-clone/api/delete_post.php?post_id=<?php echo $id; ?>", {
                                     result: result
                                 });
 
@@ -435,8 +435,8 @@ class Post
                 //Prepare image div
                 if ($imagePath != "") {
                     $imageDiv = "<div class='postedImage'>
-                                    <img src='" . $imagePath . "'>
-                                </div>";
+                        <img src='/Facebook-clone/" . $imagePath . "'>
+                    </div>";
                 }
                 else {
                     $imageDiv = "";
@@ -521,11 +521,11 @@ class Post
                 //With each iteration, add a post to the html
                 $html .= "<div class='status_post' onClick='javascript:toggle$id(event)'>
                                 <div class='post_profile_pic'>
-                                    <img src='$profile_pic' width='50'>
+                                    <img src='/Facebook-clone/$profile_pic' width='50'>
                                 </div>
 
                                 <div class='posted_by' style='color: #ACACAC;'>
-                                    <a href='$added_by'>$first_name $last_name </a> &nbsp;&nbsp;&nbsp;$time_message
+                                        <a href='/Facebook-clone/vues/clients/profile.php?u=$added_by'>$first_name $last_name</a> &nbsp;&nbsp;&nbsp;$time_message
                                     $delete_button
                                 </div>
                                 <div id='post_body'>
@@ -538,7 +538,7 @@ class Post
 
                                 <div class='newsfeedPostOptions'>
                                     Comments($comments_check_num)&nbsp;&nbsp;&nbsp;
-                                    <iframe src='like.php?post_id=$id' scrolling='no'></iframe>
+                                    <iframe src='/Facebook-clone/vues/clients/like.php?post_id=$id' scrolling='no'></iframe>
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
@@ -557,7 +557,7 @@ class Post
                         $('#post<?php echo $id; ?>').on('click', function() {
                             // Comes with bootstrap JS
                             bootbox.confirm("Are you sure you want to delete this post?", function(result) {
-                                $.post("../../api/delete_post.php?post_id=<?php echo $id; ?>", {
+                                $.post("/Facebook-clone/api/delete_post.php?post_id=<?php echo $id; ?>", {
                                     result: result
                                 });
 
@@ -612,7 +612,7 @@ class Post
                 } else {
                     $user_to_obj = new User($this->con, $row['user_to']); //New instance of the user to object (To post on someones page!!)
                     $user_to_name = $user_to_obj->getFirstAndLastName();
-                    $user_to = "to <a href='" . $row['user_to'] . "'>" . $user_to_name . "</a>";
+                    $user_to = "to <a href='/Facebook-clone/vues/clients/profile.php?u=" . $row['user_to'] . "'>" . $user_to_name . "</a>";
                 }
 
                 //Check if user who posted, has their account closed
@@ -718,11 +718,11 @@ class Post
                     //With each iteration, add a post to the html
                     $html .= "<div class='status_post' onClick='javascript:toggle$id(event)'>
                                 <div class='post_profile_pic'>
-                                    <img src='$profile_pic' width='50'>
+                                     <img src='/Facebook-clone/$profile_pic' width='50'>
                                 </div>
 
                                 <div class='posted_by' style='color: #ACACAC;'>
-                                    <a href='$added_by'>$first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;$time_message
+                                        <a href='/Facebook-clone/vues/clients/profile.php?u=$added_by'>$first_name $last_name</a> $user_to &nbsp;&nbsp;&nbsp;$time_message
                                     $delete_button
                                 </div>
                                 <div id='post_body'>
@@ -734,7 +734,7 @@ class Post
 
                                 <div class='newsfeedPostOptions'>
                                     Comments($comments_check_num)&nbsp;&nbsp;&nbsp;
-                                    <iframe src='like.php?post_id=$id' scrolling='no'></iframe>
+                                    <iframe src='/Facebook-clone/vues/clients/like.php?post_id=$id' scrolling='no'></iframe>
                                 </div>
                             </div>
                             <div class='post_comment' id='toggleComment$id' style='display:none;'>
@@ -753,7 +753,7 @@ class Post
                         $('#post<?php echo $id; ?>').on('click', function() {
                             // Comes with bootstrap JS
                             bootbox.confirm("Are you sure you want to delete this post?", function(result) {
-                                $.post("includes/form_handlers/delete_post.php?post_id=<?php echo $id; ?>", {
+                                $.post("/Facebook-clone/api/delete_post.php?post_id=<?php echo $id; ?>", {
                                     result: result
                                 });
 
