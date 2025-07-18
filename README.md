@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Facebook Clone
 
 ## Description du projet
@@ -17,18 +16,19 @@ Ce projet est un clone simplifié de Facebook, développé en PHP avec une base 
 ## Identifiants de test
 
 ### Utilisateur client
-- **Email** : groupdeux@gmail.com
-- **Mot de passe** : b1e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2 (hashé, à réinitialiser ou à remplacer par un mot de passe connu si besoin)
-- **Nom d'utilisateur** : groupedeux
+- **Email** : jaesandally@gmail.com
+- **Mot de passe** : Arnlyse1198
+- **Nom d'utilisateur** : Jaesan Lovi
 
 ### Administrateur
-- **Email** : groupedeuxesgis@gmail.com
-- **Mot de passe** : b8e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2 (hashé, à réinitialiser ou à remplacer par un mot de passe connu si besoin)
+- **Email** : mavine32@gmail.com
+- **Mot de passe** : Admin12345
 - **Nom d'utilisateur** : groupedeuxesgis
 
 ### Autres comptes de test
 - **Lauriane Degan** : Laurianelaurie029@gmail.com / username : lauriane_degan
-- **Modérateur** : tpesgis@gmail.com / username : tpesgis
+- **Modérateur** : alexmassenon@gmail.com
+Mot de passe: Modo12345
 
 > **Remarque :** Les mots de passe sont stockés hashés dans la base de données. Pour tester en local, vous pouvez soit réinitialiser le mot de passe via la fonctionnalité "mot de passe oublié", soit insérer un mot de passe connu en base.
 
@@ -42,11 +42,13 @@ Ce projet est un clone simplifié de Facebook, développé en PHP avec une base 
 ## Structure du projet
 ```
 facebook_clone/
+index.php
 ├── api/           # Backend PHP
 ├── assets/        # CSS, JS, Images
 ├── vues/          # Pages frontend
 ├── .eslintrc.json # Configuration ESLint
 └── .prettierrc    # Configuration Prettier
+
 ```
 
 ## Installation rapide
@@ -61,7 +63,3 @@ facebook_clone/
 
 ## Contact & Support
 Pour toute question, ouvrez une issue sur GitHub ou contactez un membre du groupe au +2290153531653.
-=======
-
-Ceci est notre projet 
->>>>>>> 0cdd43593df9d748758ac9480c0d6ae328355412
