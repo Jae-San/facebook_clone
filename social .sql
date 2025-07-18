@@ -188,16 +188,19 @@ CREATE TABLE `users` (
   `friend_array` text NOT NULL,
   `isconfirm` int(11) DEFAULT 0,
   `token` varchar(255) DEFAULT '',
-  `tokenExpire` datetime DEFAULT NULL
+  `tokenExpire` datetime DEFAULT NULL,
+  `role` VARCHAR(20) NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `signup_date`, `profile_pic`, `num_posts`, `num_likes`, `user_closed`, `friend_array`, `isconfirm`, `token`, `tokenExpire`) VALUES
-(1, 'Test', 'User', 'test_user', 'test@example.com', 'cc03e747a6afbbcbf8be7668acfebee5', '2024-01-01', 'assets/images/profile_pics/defaults/head_deep_blue.png', 0, 0, 'no', ',', 0, '', NULL),
-(21, 'Lauriane', 'Degan', 'lauriane_degan', 'Laurianelaurie029@gmail.com', 'b10a9d3c493ca15187d9895d53e740dc', '2025-07-13', 'assets/images/profile_pics/defaults/head_emerald.png', 8, 0, 'no', ',', 1, '', NULL);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `signup_date`, `profile_pic`, `num_posts`, `num_likes`, `user_closed`, `friend_array`, `isconfirm`, `token`, `tokenExpire`, `role`) VALUES
+(1, 'Test', 'User', 'groupedeux', 'groupdeux@gmail.com', 'b1e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2', '2024-01-01', 'assets/images/profile_pics/defaults/head_deep_blue.png', 0, 0, 'no', ',', 0, '', NULL, 'user'),
+(21, 'Lauriane', 'Degan', 'lauriane_degan', 'Laurianelaurie029@gmail.com', 'b10a9d3c493ca15187d9895d53e740dc', '2025-07-13', 'assets/images/profile_pics/defaults/head_emerald.png', 8, 0, 'no', ',', 1, '', NULL, 'user'),
+(2, 'Admin', 'Test', 'groupedeuxesgis', 'groupedeuxesgis@gmail.com', 'b8e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2', '2024-01-01', 'assets/images/profile_pics/defaults/head_amethyst.png', 0, 0, 'no', ',', 1, '', NULL, 'admin'),
+(3, 'Modo', 'Test', 'tpesgis', 'tpesgis@gmail.com', 'B2E2E2E2E2E2E2E2E2E2E2E2E2E2E2E2', '2024-01-01', 'assets/images/profile_pics/defaults/head_wisteria.png', 0, 0, 'no', ',', 1, '', NULL, 'moderator');
 
 --
 -- Index pour les tables déchargées
@@ -312,21 +315,3 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT pour la table `trends`
---
-ALTER TABLE `trends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
-
---
--- AUTO_INCREMENT pour la table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

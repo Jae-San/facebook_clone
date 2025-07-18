@@ -15,7 +15,8 @@
         $user = mysqli_fetch_array($user_details_query); //return array from db
 
     } else {
-        header("Location: register.php"); //If not logged in, redirect to register
+        header("Location: /Facebook-clone/vues/clients/register.php");
+        exit(); //If not logged in, redirect to register
     }
     ?>
 
@@ -27,7 +28,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <!-- My CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/style.css">
 </head>
 
 <body>
@@ -64,73 +65,66 @@
     $posted_to = $row['added_by'];
     $user_to = $row['user_to'];
 
-    if (isset($_POST['postComment' . $post_id])) {
-        $post_body = $_POST['post_body'];
+    if ((isset($_POST['post_body']) && isset($_POST['userLoggedIn']) && isset($_POST['ajax'])) || isset($_POST['postComment' . $post_id])) {
+        $post_body = isset($_POST['post_body']) ? $_POST['post_body'] : '';
+        $userLoggedIn = isset($_POST['userLoggedIn']) ? $_POST['userLoggedIn'] : $userLoggedIn;
         $post_body = mysqli_escape_string($con, $post_body);
         $date_time_now = date("Y-m-d H:i:s");
-
         $insertpost = mysqli_query($con, "INSERT INTO comments VALUES ('', '$post_body', '$userLoggedIn', '$posted_to', '$date_time_now', 'no', '$post_id')");
-
         //Insert notification
         if ($posted_to != $userLoggedIn) {
             $notification = new Notification($con, $userLoggedIn);
             $notification->insertNotification($post_id, $posted_to, "comment");
         }
-        
         if ($user_to != 'none' && $user_to != $userLoggedIn) {
             $notification = new Notification($con, $userLoggedIn);
             $notification->insertNotification($post_id, $user_to, "profile_comment");
         }
-
-        //Select all people that have commented on the post
-        $get_commenters = mysqli_query($con, "SELECT * FROM comments WHERE post_id='$post_id'");
-        $notified_users = array();
-        
-        while ($row = mysqli_fetch_array($get_commenters)) {
-
-            /*  if the person who posted this comment this to this query is not the person who posted the original post + we dont want to notify ourselves + notify once, so push all already commented people in the array, so they would not get notified next time someone comments*/
-            if ($row['posted_by'] != $posted_to && $row['posted_by'] != $user_to
-                && $row['posted_by'] != $userLoggedIn && !in_array($row['posted_by'], $notified_users)) {
-
-                    $notification = new Notification($con, $userLoggedIn);
-                    $notification->insertNotification($post_id, $row['posted_by'], "comment_non_owner");
-
-                    array_push($notified_users, $row['posted_by']);
-
-            }
-
+        // Générer le HTML du nouveau commentaire
+        $user_obj = new User($con, $userLoggedIn);
+        $time_message = "Just now";
+        $comment_html = '<div class="comment_section">'
+            .'<a href="/Facebook-clone/vues/clients/profile.php?u=' . $userLoggedIn . '" target="_parent">'
+            .'<img src="/Facebook-clone/' . $user_obj->getProfilePic() . '" alt="Comment_profile_pic" title="' . $userLoggedIn . '" style="float:left; height: 30px;">'
+            .'</a>'
+            .'<a href="/Facebook-clone/vues/clients/profile.php?u=' . $userLoggedIn . '" target="_parent">'
+            .'<b>' . $user_obj->getFirstAndLastName() . ' </b>'
+            .'</a>'
+            .'&nbsp;&nbsp;&nbsp;&nbsp; ' . $time_message . "<br>" . htmlspecialchars($post_body)
+            .'<hr>'
+            .'</div>';
+        if (isset($_POST['ajax'])) {
+            echo $comment_html;
+            exit();
         }
-
+        // Sinon, comportement classique
         echo "<php>Comment posted!</php>";
     }
 
     ?>
 
-    <form action="comment_frame.php?post_id=<?php echo $post_id; ?>" id="comment_form" name="postComment<?php echo $post_id; ?>" method="POST">
+    <form action="/Facebook-clone/vues/clients/comment_frame.php?post_id=<?php echo $post_id; ?>" id="comment_form" name="postComment<?php echo $post_id; ?>" method="POST">
         <textarea name="post_body"></textarea>
         <input type="submit" name="postComment<?php echo $post_id; ?>" value="Post">
     </form>
 
-    <!-- Load comments -->
+    <div id="comments_list">
     <?php
     $get_comments = mysqli_query($con, "SELECT * FROM comments WHERE post_id='$post_id' ORDER BY id DESC");
     $count = mysqli_num_rows($get_comments);
 
     if ($count != 0) {
         while ($comment = mysqli_fetch_array($get_comments)) {
-
             $comment_body = $comment['post_body'];
             $posted_by = $comment['posted_by'];
             $posted_to = $comment['posted_to'];
             $date_added = $comment['date_added'];
             $removed = $comment['removed'];
-
             //Timeframe
             $date_time_now = date("Y-m-d H:i:s");
             $start_date = new DateTime($date_added); //Time of post
             $end_date = new DateTime($date_time_now); //Current time
             $interval = $start_date->diff($end_date); //Difference between dates
-
             if ($interval->y >= 1) {
                 if ($interval->y == 1) {
                     $time_message = $interval->y . " year ago"; //1 year ago
@@ -145,7 +139,6 @@
                 } else {
                     $days = $interval->d . " days ago";
                 }
-
                 if ($interval->m == 1) {
                     $time_message = $interval->m . " month" . $days;
                 } else {
@@ -176,29 +169,50 @@
                     $time_message = $interval->s . " seconds ago";
                 }
             }
-
             $user_obj = new User($con, $posted_by);
-
             ?>
-            <!-- Comment section HTML -->
             <div class="comment_section">
-            <a href="<?php echo $posted_by; ?>" target="_parent">
-                <img src="<?php echo $user_obj->getProfilePic(); ?>" alt="Comment_profile_pic" title="<?php echo $posted_by; ?>" style="float:left; height: 30px;">
-            </a>
-            <a href="<?php echo $posted_by; ?>" target="_parent">
-                <b><?php echo $user_obj->getFirstAndLastName(); ?> </b>
-            </a>
-            &nbsp;&nbsp;&nbsp;&nbsp; <?php echo $time_message . "<br>" . $comment_body; ?>
-            <hr>
+                <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $posted_by; ?>" target="_parent">
+                    <img src="/Facebook-clone/<?php echo $user_obj->getProfilePic(); ?>" alt="Comment_profile_pic" title="<?php echo $posted_by; ?>" style="float:left; height: 30px;">
+                </a>
+                <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $posted_by; ?>" target="_parent">
+                    <b><?php echo $user_obj->getFirstAndLastName(); ?> </b>
+                </a>
+                 &nbsp;&nbsp;&nbsp;&nbsp; <?php echo $time_message . "<br>" . $comment_body; ?>
+                <hr>
             </div>
-
             <?php
         }
     } else {
         echo "<center><br><br>No Comments to Show!</center>";
     }
-
     ?>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#comment_form').on('submit', function(e) {
+            e.preventDefault();
+            var post_body = $(this).find('textarea[name=post_body]').val();
+            var post_id = <?php echo json_encode($post_id); ?>;
+            var username = sessionStorage.getItem('username');
+            $.ajax({
+                url: '/Facebook-clone/vues/clients/comment_frame.php?post_id=' + post_id,
+                type: 'POST',
+                data: {
+                    post_body: post_body,
+                    userLoggedIn: username,
+                    ajax: 1
+                },
+                success: function(data) {
+                    $('#comments_list').prepend(data);
+                    $('#comment_form textarea[name=post_body]').val('');
+                }
+            });
+        });
+    });
+    </script>
 
   
 

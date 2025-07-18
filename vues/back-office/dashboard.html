@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/admin.css">
+</head>
+<body>
+    <h2>Dashboard - Statistiques</h2>
+    <div id="dashboardStats">Chargement...</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function loadStats() {
+        $.ajax({
+            url: '/Facebook-clone/vues/back-office/dashboard_stats.php',
+            type: 'POST',
+            data: { ajax: 1 },
+            success: function(data) {
+                $('#dashboardStats').html(data);
+            }
+        });
+    }
+    $(function() {
+        loadStats();
+    });
+    </script>
+    <script src="/Facebook-clone/assets/js/main.js"></script>
+</body>
+</html>

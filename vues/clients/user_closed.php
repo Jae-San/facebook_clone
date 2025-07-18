@@ -6,5 +6,5 @@ include("../../includes/header.php");
     <h4>User Closed</h4>
 
     This account is closed.
-    <a href="index.php">Click here to go back.</a>
+    <a href="/Facebook-clone/index.php">Click here to go back.</a>
 </div>

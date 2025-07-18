@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-login-container">
+        <h2>Admin/Modérateur Login</h2>
+        <form id="adminLoginForm">
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <div id="adminLoginError" style="color:red;"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(function() {
+        $('#adminLoginForm').on('submit', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: '/Facebook-clone/api/admin_login_handler.php',
+                type: 'POST',
+                data: form.serialize() + '&ajax=1',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        sessionStorage.setItem('username', response.username);
+                        sessionStorage.setItem('role', response.role);
+                        window.location.href = '/Facebook-clone/vues/back-office/dashboard.html';
+                    } else {
+                        $('#adminLoginError').text(response.error);
+                    }
+                },
+                error: function() {
+                    $('#adminLoginError').text('Erreur serveur.');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

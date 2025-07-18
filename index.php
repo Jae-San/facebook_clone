@@ -39,11 +39,12 @@ if (isset($_POST['post'])) {
     }
 
     if ($uploadOk) {
-        $post = new Post($con, $userLoggedIn); //Create a new post instance of this class, pass the user who created it
-
-        $post->submitPost($_POST['post_text'], 'none', $imageName); //Submit the post via submit method in the Post.php class file, $user_to is none cause it is the index page
-
-        header("location: index.php"); //Removes the resubmission of form when refreshing the page!
+        $post = new Post($con, $userLoggedIn);
+    
+        $post->submitPost($_POST['post_text'], 'none', $imageName);
+    
+        header("Location: /Facebook-clone/index.php");
+        exit();
     }
     else {
         echo "<div style='text-align: center;' class='alert alert-danger'>
@@ -57,12 +58,11 @@ if (isset($_POST['post'])) {
 ?>
 <!-- USER DETAILS -->
 <div class="user_details column">
-    <!-- comes from header page, rewrite in .htaccess -->
-    <a href="<?php echo $userLoggedIn; ?>">
-        <img src="<?php echo $user['profile_pic']; ?>" alt="Profile picture">
+    <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
+        <img src="/Facebook-clone/<?php echo $user['profile_pic']; ?>" alt="Profile picture">
     </a>
     <div class="user_details_left_right">
-        <a href="<?php echo $userLoggedIn; ?>">
+        <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
             <?php
             echo $user['first_name'] . " " . $user['last_name'];
             ?>
@@ -78,7 +78,7 @@ if (isset($_POST['post'])) {
 <!-- MAIN COLUMN -->
 <div class="main_column column">
     <!-- enctype allows forms to process file data -->
-    <form class="post_form" action="index.php" method="POST" enctype="multipart/form-data">
+    <form class="post_form" action="/Facebook-clone/index.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
         <textarea name="post_text" id="post_text" placeholder="Got something to say?"></textarea>
         <input type="submit" name="post" id="post_button" value="Post">
@@ -93,7 +93,7 @@ if (isset($_POST['post'])) {
     <div class="posts_area">
         <!-- Posts are going to be loaded via ajax, 10 at a time -->
     </div>
-    <img id="loading" src="assets/images/icons/loading.gif" alt="Loading">
+    <img id="loading" src="/Facebook-clone/assets/images/icons/loading.gif" alt="Loading">
 </div>
 
 <div class="user_details column">
@@ -148,7 +148,7 @@ if (isset($_POST['post'])) {
             var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
 
             $.ajax({
-                url: "api/ajax_load_posts.php",
+                url: "/Facebook-clone/api/ajax_load_posts.php",
                 type: "POST",
                 data: "page=" + page + "&userLoggedIn=" + userLoggedIn,
                 cache: false,
@@ -234,6 +234,16 @@ if (isset($_POST['post'])) {
     }); */
 </script>
 
+<script>
+if (!sessionStorage.getItem('username')) {
+    window.location.href = '/Facebook-clone/vues/clients/register.php';
+}
+</script>
+<script>
+setTimeout(function() {
+    window.location.reload();
+}, 900000); // 900 000 ms = 15 minutes
+</script>
 </div> <!-- End of wrapper div in header.php -->
 </body>
 

@@ -5,16 +5,22 @@ include("../../includes/header.php"); //Also includes classes like User and Post
 
 $message_obj = new Message($con, $userLoggedIn);
 
-// Profile actual url (we hid it with htaccess) /fb/profile.php?profile_username=rix_rix
-
+// Accepter ?u=... ou ?profile_username=...
 if (isset($_GET['profile_username'])) {
     $username = $_GET['profile_username'];
-
-    $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
-    $user_array = mysqli_fetch_array($user_details_query);
-
-    $num_friends = (substr_count($user_array['friend_array'], ",")) - 1;
+} else if (isset($_GET['u'])) {
+    $username = $_GET['u'];
+} else {
+    die("Aucun utilisateur spécifié.");
 }
+
+$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$username'");
+$user_array = mysqli_fetch_array($user_details_query);
+if (!$user_array) {
+    die("Utilisateur introuvable.");
+}
+
+$num_friends = (substr_count($user_array['friend_array'], ",")) - 1;
 
 if (isset($_POST['remove_friend'])) {
     $user = new User($con, $userLoggedIn);
@@ -27,7 +33,7 @@ if (isset($_POST['add_friend'])) {
 }
 
 if (isset($_POST['respond_request'])) {
-    header("Location: requests.php"); //Redirect to requests page!
+    header("Location: /Facebook-clone/vues/clients/requests.php"); //Redirect to requests page!
 }
 
 if (isset($_POST['post_message'])) {
@@ -48,6 +54,11 @@ if (isset($_POST['post_message'])) {
 }
 
 ?>
+<script>
+if (!sessionStorage.getItem('username')) {
+    window.location.href = '/Facebook-clone/vues/clients/register.php';
+}
+</script>
 
 <style>
     .wrapper {
@@ -58,7 +69,7 @@ if (isset($_POST['post_message'])) {
 
 <!-- PROFILE BOX -->
 <div class="profile_left">
-    <img src="<?php echo $user_array['profile_pic']; ?>" alt="profile_pic">
+    <img src="/Facebook-clone/<?php echo $user_array['profile_pic']; ?>" alt="profile_pic">
 
     <div class="profile_info">
         <p><?php echo "Posts: " . $user_array['num_posts']; ?></p>
@@ -66,7 +77,7 @@ if (isset($_POST['post_message'])) {
         <p><?php echo "Friends: " . $num_friends; ?></p>
     </div>
 
-    <form action="<?php echo $username ?>" method="POST">
+    <form action="/Facebook-clone/vues/clients/profile.php?u=<?php echo $username; ?>" method="POST">
 
         <?php
         $profile_user_obj = new User($con, $username);
@@ -129,7 +140,7 @@ if (isset($_POST['post_message'])) {
             <div class="posts_area">
                 <!-- Posts are going to be loaded via ajax, 10 at a time -->
             </div>
-            <img id="loading" src="../../assets/images/icons/loading.gif" alt="Loading">
+            <img id="loading" src="/Facebook-clone/assets/images/icons/loading.gif" alt="Loading">
         </div>
         <!--  <div class="tab-pane fade" id="about_div" role="tabpanel" aria-labelledby="profile-tab">
 
@@ -145,7 +156,7 @@ if (isset($_POST['post_message'])) {
 
             $seen = (isset($check_mess['opened']) && $check_mess['opened'] === 'yes') ? "Seen" : ""; //check if he opened my last message
 
-            echo "<h4>&nbsp;You and <a href='" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
+            echo "<h4>&nbsp;You and <a href='/Facebook-clone/vues/clients/profile.php?u=" . $username . "'>" . $profile_user_obj->getFirstAndLastName() . "</a></h4><hr><br>";
             echo "<div class='loaded messages' id='scroll_messages'>";
             echo $message_obj->getMessages($username);
 
@@ -238,7 +249,7 @@ if (isset($_POST['post_message'])) {
             var page = $('.posts_area').find('.nextPage').val() || 1; //If .nextPage couldn't be found, it must not be on the page yet (it must be the first time loading posts), so use the value '1'
 
             $.ajax({
-                url: "../../api/ajax_load_profile_posts.php",
+                url: "/Facebook-clone/api/ajax_load_profile_posts.php",
                 type: "POST",
                 data: "page=" + page + "&userLoggedIn=" + userLoggedIn + "&profileUsername=" + profileUsername,
                 cache: false,

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des utilisateurs</title>
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/admin.css">
+</head>
+<body>
+    <h2>Gestion des utilisateurs</h2>
+    <div id="usersList"></div>
+    <div id="userActionMsg" style="color:green;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function loadUsers() {
+        $.ajax({
+            url: '/Facebook-clone/vues/back-office/admin_users_handler.php',
+            type: 'POST',
+            data: { ajax: 1 },
+            success: function(data) {
+                $('#usersList').html(data);
+            }
+        });
+    }
+    $(function() {
+        loadUsers();
+        $(document).on('click', '.deleteUserBtn', function() {
+            if (!confirm('Supprimer cet utilisateur ?')) return;
+            var username = $(this).data('username');
+            $.ajax({
+                url: '/Facebook-clone/vues/back-office/admin_users_handler.php',
+                type: 'POST',
+                data: { ajax: 1, delete: 1, username: username },
+                success: function(msg) {
+                    $('#userActionMsg').text(msg);
+                    loadUsers();
+                }
+            });
+        });
+        $(document).on('change', '.roleSelect', function() {
+            var username = $(this).data('username');
+            var newRole = $(this).val();
+            $.ajax({
+                url: '/Facebook-clone/vues/back-office/admin_users_handler.php',
+                type: 'POST',
+                data: { ajax: 1, setrole: 1, username: username, role: newRole },
+                success: function(msg) {
+                    $('#userActionMsg').text(msg);
+                    loadUsers();
+                }
+            });
+        });
+    });
+    </script>
+    <script src="/Facebook-clone/assets/js/main.js"></script>
+</body>
+</html>

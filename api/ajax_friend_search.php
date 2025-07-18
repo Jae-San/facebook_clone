@@ -1,14 +1,14 @@
 <?php 
-include("../../config/config.php");
-include("../classes/User.php");
+include("../config/config.php");
+include("../includes/classes/User.php");
 
-//These come from facebook.js AJAX REQUEST, and onkeyup form in messages.php fires the JS
+// Requête AJAX envoyée par facebook.js
 $query = $_POST['query'];
 $userLoggedIn = $_POST['userLoggedIn'];
 
-$names = explode(" ", $query); //Split the array with spaces
+$names = explode(" ", $query);
 
-//If _ is used in the query, search for usernames
+// Si on tape un "_" → recherche par username
 if (strpos($query, "_") !== false) {
     $usersReturned = mysqli_query($con, "SELECT * FROM users WHERE username LIKE '$query%' AND user_closed='no' LIMIT 8");
 }
@@ -24,19 +24,16 @@ if ($query != "") {
 
         $user = new User($con, $userLoggedIn);
 
-        if ($row['username'] != $userLoggedIn) {
-            $mutual_friends = $user->getMutualFriends($row['username']) . " friends in common";
-        }
-        else {
-            $mutual_friends = "";
-        }
+        $mutual_friends = ($row['username'] != $userLoggedIn) 
+            ? $user->getMutualFriends($row['username']) . " friends in common" 
+            : "";
 
-        //Everytime a user is found, create this data html, to send back to ajax 
+        // Génération du HTML pour chaque utilisateur trouvé
         if ($user->isFriend($row['username'])) {
             echo "<div class='resultDisplay'>
-                <a href='messages.php?u=" . $row['username'] . "' style='color:#000;'>
+                <a href='/Facebook-clone/vues/clients/messages.php?u=" . $row['username'] . "' style='color:#000;'>
                     <div class='liveSearchProfilePic'>
-                        <img src='" . $row['profile_pic'] . "'>
+                        <img src='/Facebook-clone/" . $row['profile_pic'] . "'>
                     </div>
 
                     <div class='liveSearchText'>
@@ -49,5 +46,4 @@ if ($query != "") {
         }
     }
 }
-
 ?>

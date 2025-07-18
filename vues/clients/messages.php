@@ -25,43 +25,48 @@ if ($user_to != "new") {
     $friendPic = mysqli_fetch_array($friendProfilePic);
 }
 
-if (isset($_POST['post_message'])) {
+if ((isset($_POST['post_message']) || isset($_POST['ajax'])) && $user_to != "new") {
     $body = isset($_POST['message_body']) ? mysqli_real_escape_string($con, $_POST['message_body']) : '';
     $date = date("Y-m-d H:i:s");
     $imagePath = "";
-
-    // Gestion de l'image
     if(isset($_FILES['chatImage']) && $_FILES['chatImage']['name'] != "") {
-        $targetDir = "assets/images/messages/";
+        $targetDir = "../../assets/images/messages/";
         if(!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
         $imageName = uniqid() . basename($_FILES['chatImage']['name']);
         $imageFileType = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
-        $imagePath = $targetDir . $imageName;
-
-        // Vérification type et taille
+        $targetFile = $targetDir . $imageName;
         if(($_FILES['chatImage']['size'] <= 1000000) && in_array($imageFileType, ['jpg','jpeg','png'])) {
-            if(!move_uploaded_file($_FILES['chatImage']['tmp_name'], $imagePath)) {
+            if(move_uploaded_file($_FILES['chatImage']['tmp_name'], $targetFile)) {
+                $imagePath = "assets/images/messages/" . $imageName; // <-- à enregistrer en base
+            } else {
                 $imagePath = "";
             }
         } else {
             $imagePath = "";
         }
     }
-
-    // Envoi du message (on passe le chemin de l'image)
     $message_obj->sendMessage($user_to, $body, $date, $imagePath);
+    if (isset($_POST['ajax'])) {
+        echo $message_obj->getMessages($user_to);
+        exit();
+    }
 }
 ?>
+<script>
+if (!sessionStorage.getItem('username')) {
+    window.location.href = '/Facebook-clone/vues/clients/register.php';
+}
+</script>
 
 <div class="user_details column">
     <!-- comes from header page, rewrite in .htaccess -->
-    <a href="<?php echo $userLoggedIn; ?>">
-        <img src="<?php echo $user['profile_pic']; ?>" alt="Profile picture">
+    <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
+        <img src="/Facebook-clone/<?php echo $user['profile_pic']; ?>" alt="Profile picture">
     </a>
     <div class="user_details_left_right">
-        <a href="<?php echo $userLoggedIn; ?>">
+        <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
             <?php
             echo $user['first_name'] . " " . $user['last_name'];
             ?>
@@ -106,7 +111,7 @@ if (isset($_POST['post_message'])) {
 
     <div class="message_post">
         <!-- action blank = this page -->
-        <form action="messages.php?u=<?php echo $user_to; ?>" method="POST" enctype="multipart/form-data">
+        <form action="/Facebook-clone/vues/clients/messages.php?u=<?php echo $user_to; ?>" method="POST" enctype="multipart/form-data" id="sendMessageForm">
             <?php
             if ($user_to == "new") {
                 echo "Select the friend you would like to message <br><br>";
@@ -163,5 +168,41 @@ if (isset($_POST['post_message'])) {
         ?>
     </div>
     <br>
-    <a href="messages.php?u=new" style="text-align:center;">New Message</a>
+    <a href="/Facebook-clone/vues/clients/messages.php?u=new" style="text-align:center;">New Message</a>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    $('#sendMessageForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        formData.append('ajax', 1);
+        $.ajax({
+            url: '/Facebook-clone/vues/clients/messages.php?u=<?php echo $user_to; ?>',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                $('#scroll_messages').html(data);
+                $('#message_textarea').val('');
+                var div = document.getElementById('scroll_messages');
+                div.scrollTop = div.scrollHeight;
+            }
+        });
+    });
+    // Rafraîchissement automatique des messages toutes les 3 secondes
+    setInterval(function() {
+        $.ajax({
+            url: '/Facebook-clone/vues/clients/messages.php?u=<?php echo $user_to; ?>',
+            type: 'POST',
+            data: { ajax: 1 },
+            success: function(data) {
+                $('#scroll_messages').html(data);
+                var div = document.getElementById('scroll_messages');
+                div.scrollTop = div.scrollHeight;
+            }
+        });
+    }, 3000);
+});
+</script>

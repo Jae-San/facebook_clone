@@ -1,11 +1,25 @@
-<?php require '../../config/config.php'; //getting $con var
-include("../classes/User.php"); //Call in the USER CLASS
-include("../classes/Post.php"); //Call in the Post CLASS
-include("../classes/Notification.php"); //Call in the Post CLASS
+<?php 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require __DIR__ . '/../config/config.php';
+include("../includes/classes/User.php");
+include("../includes/classes/Post.php");
+include("../includes/classes/Notification.php");
 
 if (isset($_POST['post_body'])) {
-    $post = new Post($con, $_POST['user_from']);
-    $post->submitPost($_POST['post_body'], $_POST['user_to'], ""); 
-}
+    $user_from = $_POST['user_from'] ?? '';
+    $user_to = $_POST['user_to'] ?? '';
+    $post_body = $_POST['post_body'] ?? '';
 
+    if ($user_from && $user_to && $post_body) {
+        $post = new Post($con, $user_from);
+        $post->submitPost($post_body, $user_to, "");
+        echo "success";
+    } else {
+        echo "error: missing data";
+    }
+} else {
+    echo "error: no post_body";
+}
 ?>

@@ -7,16 +7,19 @@
 
 
     //If user is logged in 
-    if (isset($_SESSION['username'])) {
-        $userLoggedIn = $_SESSION['username'];
-
+    if (isset($_POST['userLoggedIn'])) {
+        $userLoggedIn = $_POST['userLoggedIn'];
         //Get user details from db
         $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
-
         $user = mysqli_fetch_array($user_details_query); //return array from db
-
+    } else if (isset($_SESSION['username'])) {
+        $userLoggedIn = $_SESSION['username'];
+        //Get user details from db
+        $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
+        $user = mysqli_fetch_array($user_details_query); //return array from db
     } else {
-        header("Location: register.php"); //If not logged in, redirect to register
+        header("Location: /Facebook-clone/vues/clients/register.php");
+        exit(); //If not logged in, redirect to register
     }
 
     //Get id of post that the use wants to like/liked 
@@ -33,6 +36,36 @@
     $user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$user_liked'"); //info of user who liked
     $row = mysqli_fetch_array($user_details_query);
     $total_user_likes = $row['num_likes'];
+
+    //Like/Unlike AJAX
+    if (isset($_POST['ajax']) && isset($_POST['action']) && isset($_POST['userLoggedIn'])) {
+        $userLoggedIn = $_POST['userLoggedIn'];
+        $action = $_POST['action'];
+        if ($action == 'like') {
+            $total_likes++;
+            $query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
+            $total_user_likes++;
+            $user_likes = mysqli_query($con, "UPDATE users SET num_likes='$total_user_likes' WHERE username='$user_liked'");
+            $insert_user = mysqli_query($con, "INSERT INTO likes VALUES ('', '$userLoggedIn', '$post_id')");
+            if ($user_liked != $userLoggedIn) {
+                $notification = new Notification($con, $userLoggedIn);
+                $notification->insertNotification($post_id, $user_liked, "like");
+            }
+            $liked = true;
+        } else if ($action == 'unlike') {
+            $total_likes--;
+            $query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
+            $total_user_likes--;
+            $user_likes = mysqli_query($con, "UPDATE users SET num_likes='$total_user_likes' WHERE username='$user_liked'");
+            $insert_user = mysqli_query($con, "DELETE FROM likes WHERE username='$userLoggedIn' AND post_id='$post_id'");
+            $liked = false;
+        }
+        echo json_encode([
+            'total_likes' => $total_likes,
+            'liked' => $liked
+        ]);
+        exit();
+    }
 
     //Like button
     if (isset($_POST['like_button'])) {
@@ -65,24 +98,9 @@
     //Check for previous likes
     $check_query = mysqli_query($con, "SELECT * FROM likes WHERE username='$userLoggedIn' AND post_id='$post_id'");
     $num_rows = mysqli_num_rows($check_query);
-
-    if ($num_rows > 0) {
-        echo '<form action="like.php?post_id=' . $post_id . '" method="POST">
-                <input type="submit" class="comment_like" name="unlike_button" value="Unlike">
-                <div class="like_value">
-                    ' . $total_likes . ' Likes
-                </div>
-            </form>
-        ';
-    } else {
-        echo '<form action="like.php?post_id=' . $post_id . '" method="POST">
-                <input type="submit" class="comment_like" name="like_button" value="Like">
-                <div class="like_value">
-                    ' . $total_likes . ' Likes
-                </div>
-            </form>
-        ';
-    }
+    $liked = ($num_rows > 0);
+    echo '<button id="likeBtn" data-post-id="' . $post_id . '" data-liked="' . ($liked ? '1' : '0') . '">' . ($liked ? 'Unlike' : 'Like') . '</button>';
+    echo '<div id="likeCount">' . $total_likes . ' Likes</div>';
 
     ?>
 
@@ -94,7 +112,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title></title>
      <!-- My CSS -->
-     <link rel="stylesheet" href="assets/css/style.css">
+     <link rel="stylesheet" href="/Facebook-clone/assets/css/style.css">
  </head>
 
  <body>
@@ -114,7 +132,38 @@
         }
      </style>
 
-
+     <script>
+if (!sessionStorage.getItem('username')) {
+    window.location.href = '/Facebook-clone/vues/clients/register.php';
+}
+</script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script>
+     $(document).ready(function() {
+         $('#likeBtn').on('click', function() {
+             var btn = $(this);
+             var post_id = btn.data('post-id');
+             var liked = btn.data('liked') == 1;
+             var username = sessionStorage.getItem('username');
+             var action = liked ? 'unlike' : 'like';
+             $.ajax({
+                 url: '/Facebook-clone/vues/clients/like.php?post_id=' + post_id,
+                 type: 'POST',
+                 data: {
+                     userLoggedIn: username,
+                     action: action,
+                     ajax: 1
+                 },
+                 dataType: 'json',
+                 success: function(data) {
+                     btn.text(data.liked ? 'Unlike' : 'Like');
+                     btn.data('liked', data.liked ? 1 : 0);
+                     $('#likeCount').text(data.total_likes + ' Likes');
+                 }
+             });
+         });
+     });
+     </script>
 
  </body>
 

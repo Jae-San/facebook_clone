@@ -81,7 +81,7 @@ if(isset($_GET['type'])) {
                             header("Location: http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"); //REFRESH THE PAGE...
                         }
                         else if ($user_obj->didReceiveRequest($row['username'])) {
-                            header("Location: requests.php");
+                            header("Location: /Facebook-clone/vues/clients/requests.php");
                         }
                         else if ($user_obj->didSendRequest($row['username'])) {
                             //Maybe cancel request?
@@ -102,12 +102,12 @@ if(isset($_GET['type'])) {
                         </div>
 
                         <div class='result_profile_pic'>
-                            <a href='" . $row['username'] . "'>
-                                <img src='" . $row['profile_pic'] . "' style='height: 100px;'>
+                            <a href='/Facebook-clone/vues/clients/profile.php?u=" . $row['username'] . "'>
+                                <img src='/Facebook-clone/" . $row['profile_pic'] . "' style='height: 100px;'>
                             </a>
                         </div>
 
-                        <a href='" . $row['username'] . "'>
+                        <a href='/Facebook-clone/vues/clients/profile.php?u=" . $row['username'] . "'>
                             " . $row['first_name'] . " " . $row['last_name'] . "
                             <p id='grey'>" . $row['username'] . "</p>
                         </a>

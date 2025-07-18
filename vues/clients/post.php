@@ -7,15 +7,22 @@ if (isset($_GET['id'])) {
     $id = 0;
 }
 ?>
+<script>
+if (!sessionStorage.getItem('username')) {
+    window.location.href = '/Facebook-clone/vues/clients/register.php';
+}
+</script>
+<?php
+?>
 
 <!-- USER DETAILS -->
 <div class="user_details column">
     <!-- comes from header page, rewrite in .htaccess -->
-    <a href="<?php echo $userLoggedIn; ?>">
-        <img src="<?php echo $user['profile_pic']; ?>" alt="Profile picture">
+    <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
+        <img src="/Facebook-clone/<?php echo $user['profile_pic']; ?>" alt="Profile picture">
     </a>
     <div class="user_details_left_right">
-        <a href="<?php echo $userLoggedIn; ?>">
+        <a href="/Facebook-clone/vues/clients/profile.php?u=<?php echo $userLoggedIn; ?>">
             <?php
             echo $user['first_name'] . " " . $user['last_name'];
             ?>

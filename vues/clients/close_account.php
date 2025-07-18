@@ -2,13 +2,15 @@
 include("../../includes/header.php");
 
 if (isset($_POST['cancel'])) {
-    header("Location: settings.php");
+    header("Location: /Facebook-clone/vues/clients/settings.php");
+    exit();
 }
 
 if (isset($_POST['close_account'])) {
     $close_query = mysqli_query($con, "UPDATE users SET user_closed='yes' WHERE username='$userLoggedIn'");
     session_destroy(); //Log the user out...
-    header("Location: register.php");
+    header("Location: /Facebook-clone/vues/clients/register.php");
+    exit();
 }
 ?>
 
@@ -20,7 +22,7 @@ if (isset($_POST['close_account'])) {
     You can re-open your account at any time by simply logging in.<br><br>
 
 
-    <form action="close_account.php" method="POST">
+    <form action="/Facebook-clone/vues/clients/close_account.php" method="POST">
         <input type="submit" name="close_account" id="close_account" value="Yes! Close it!" class="danger settings_submit">
         <input type="submit" name="cancel" id="update_details" value="No way!" class="info settings_submit">
     </form>

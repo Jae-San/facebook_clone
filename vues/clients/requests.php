@@ -18,10 +18,10 @@ include("../../includes/header.php");
             $data_query = mysqli_query($con, "SELECT * FROM users WHERE username='$sent_to'");
 
             while ($user = mysqli_fetch_array($data_query)) {
-                echo "<a href='" . $user['username'] . "'>
-                        <img src='" . $user['profile_pic'] . "' style='height: 45px;'>
+                echo "<a href='/Facebook-clone/vues/clients/profile.php?u=" . $user['username'] . "'>
+                        <img src='/Facebook-clone/" . $user['profile_pic'] . "' style='height: 45px;'>
                         </a>
-                        <a href='" . $user['username'] . "'>
+                        <a href='/Facebook-clone/vues/clients/profile.php?u=" . $user['username'] . "'>
                             " . $user['first_name'] . " " . $user['last_name'] . "
                         </a>$delete_button<br><hr>";
             }
@@ -34,7 +34,7 @@ include("../../includes/header.php");
         $(function() {
             $(".delReq").on('click', function(e) {
                 let id = e.target.id;
-                $.post("includes/handlers/delete_request.php", {
+                $.post("/Facebook-clone/api/delete_request.php", {
                     id: id
                 }, function() {
                     location.reload();
@@ -54,35 +54,51 @@ include("../../includes/header.php");
             $user_from_obj = new User($con, $user_from);
 
             echo $user_from_obj->getFirstAndLastName() . " sent you a friend request!";
-
             $user_from_friend_array = $user_from_obj->getFriendArray();
 
-            if (isset($_POST['accept_request' . $user_from])) {
-                $add_friend_query = mysqli_query($con, "UPDATE users SET friend_array=CONCAT(friend_array, '$user_from,') WHERE username='$userLoggedIn'"); //Add friend to database for both the sender and receiver
-                $add_friend_query = mysqli_query($con, "UPDATE users SET friend_array=CONCAT(friend_array, '$userLoggedIn,') WHERE username='$user_from'");
-
-                $delete_query = mysqli_query($con, "DELETE FROM friend_requests WHERE user_to='$userLoggedIn' AND user_from='$user_from'");
-                echo "You are now friends!";
-                header("Location: requests.php");
-            }
-
-            if (isset($_POST['ignore_request' . $user_from])) {
-                $delete_query = mysqli_query($con, "DELETE FROM friend_requests WHERE user_to='$userLoggedIn' AND user_from='$user_from'");
-                echo "Request ignored!";
-                header("Location: requests.php");
-            }
+            echo '<div class="friendRequestBtns" data-user="' . $user_from . '">
+                <button class="acceptBtn">Accept</button>
+                <button class="ignoreBtn">Ignore</button>
+            </div>';
+        }
+    }
     ?>
 
-            <form action="requests.php" method="POST">
-                <input type="submit" name="accept_request<?php echo $user_from; ?>" id="accept_button" value="Accept">
-                <input type="submit" name="ignore_request<?php echo $user_from; ?>" id="ignore_button" value="Ignore">
-            </form>
-
+    <!-- Gestion AJAX accept/ignore -->
     <?php
-        } //End of while loop
+    if (isset($_POST['ajax']) && isset($_POST['user_from']) && isset($_POST['action'])) {
+        $user_from = $_POST['user_from'];
+        $action = $_POST['action'];
+        if ($action == 'accept') {
+            $add_friend_query = mysqli_query($con, "UPDATE users SET friend_array=CONCAT(friend_array, '$user_from,') WHERE username='$userLoggedIn'");
+            $add_friend_query = mysqli_query($con, "UPDATE users SET friend_array=CONCAT(friend_array, '$userLoggedIn,') WHERE username='$user_from'");
+            $delete_query = mysqli_query($con, "DELETE FROM friend_requests WHERE user_to='$userLoggedIn' AND user_from='$user_from'");
+            echo "You are now friends!";
+        } else if ($action == 'ignore') {
+            $delete_query = mysqli_query($con, "DELETE FROM friend_requests WHERE user_to='$userLoggedIn' AND user_from='$user_from'");
+            echo "Request ignored!";
+        }
+        exit();
     }
     ?>
 
 
-
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function() {
+    $(document).on('click', '.acceptBtn, .ignoreBtn', function() {
+        var btn = $(this);
+        var user_from = btn.closest('.friendRequestBtns').data('user');
+        var action = btn.hasClass('acceptBtn') ? 'accept' : 'ignore';
+        $.ajax({
+            url: '/Facebook-clone/vues/clients/requests.php',
+            type: 'POST',
+            data: { ajax: 1, user_from: user_from, action: action },
+            success: function(response) {
+                btn.closest('.friendRequestBtns').parent().html(response);
+            }
+        });
+    });
+});
+</script>

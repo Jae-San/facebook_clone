@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des articles</title>
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/admin.css">
+</head>
+<body>
+    <h2>Gestion des articles</h2>
+    <div id="articlesList"></div>
+    <div id="articleActionMsg" style="color:green;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    function loadArticles() {
+        $.ajax({
+                 url: '/Facebook-clone/vues/back-office/admin_articles_handler.php',
+            type: 'POST',
+            data: { ajax: 1 },
+            success: function(data) {
+                $('#articlesList').html(data);
+            }
+        });
+    }
+    $(function() {
+        loadArticles();
+        $(document).on('click', '.deleteArticleBtn', function() {
+            if (!confirm('Supprimer cet article ?')) return;
+            var post_id = $(this).data('postid');
+            $.ajax({
+                     url: '/Facebook-clone/vues/back-office/admin_articles_handler.php',
+                type: 'POST',
+                data: { ajax: 1, delete: 1, post_id: post_id },
+                success: function(msg) {
+                    $('#articleActionMsg').text(msg);
+                    loadArticles();
+                }
+            });
+        });
+    });
+    </script>
+    <script src="/Facebook-clone/assets/js/main.js"></script>
+</body>
+</html>

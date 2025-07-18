@@ -15,7 +15,7 @@ require '../../api/login_handler.php'; //login php (supprimé pour éviter la re
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-512.png">
     <title>Facebook - Register Page</title>
-    <link rel="stylesheet" href="../../assets/css/register_style.css">
+    <link rel="stylesheet" href="/Facebook-clone/assets/css/register_style.css">
 </head>
 
 <body>
@@ -62,7 +62,7 @@ require '../../api/login_handler.php'; //login php (supprimé pour éviter la re
                     }
                     ?>
 
-                    <a href="../../rle/forgotpassword.php" class="forgot">Mot de passe oublié ?</a><br>
+                    <a href="/Facebook-clone/rle/forgotpassword.php" class="forgot">Mot de passe oublié ?</a><br>
 
                     <a href="#" id="signup" class="signup">Need an account? Register here!</a>
                 </form>
@@ -149,7 +149,7 @@ require '../../api/login_handler.php'; //login php (supprimé pour éviter la re
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="../../assets/js/register.js"></script>
+    <script src="/Facebook-clone/assets/js/register.js"></script>
 </body>
 
 </html>

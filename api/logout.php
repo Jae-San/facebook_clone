@@ -3,6 +3,6 @@
 session_start();
 session_destroy();
 
-header("location: ../../register.php");
+header("Location: ../vues/clients/register.php");
 
 ?>

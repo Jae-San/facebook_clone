@@ -1,5 +1,5 @@
 <?php
-    require '../../config/config.php'; //getting $con var
+    require '../config/config.php'; //getting $con var
 
     if (isset($_GET['post_id'])) {
         $post_id = $_GET['post_id'];
