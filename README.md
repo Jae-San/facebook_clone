@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Facebook Clone
 
 ## Description du projet
@@ -60,3 +61,7 @@ facebook_clone/
 
 ## Contact & Support
 Pour toute question, ouvrez une issue sur GitHub ou contactez un membre du groupe au +2290153531653.
+=======
+
+Ceci est notre projet 
+>>>>>>> 0cdd43593df9d748758ac9480c0d6ae328355412
